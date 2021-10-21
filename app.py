@@ -39,8 +39,6 @@ def info_usuario(id_usuario):
             rows= cur.fetchone()
             long=len(rows)
             return render("pusuario.html",nom=nom,rol=rol,rows=rows,long=long)
-        # else:
-        #     return f"error, el usuario {id_usuario} no existe"
     else:
         return redirect("/ingreso")
 
