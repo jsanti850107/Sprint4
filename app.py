@@ -11,6 +11,7 @@ app=Flask(__name__)
 app.secret_key= os.urandom(24)
 nom=""
 rol=""
+pwdor=""
 rutadb="inventario.db"
 #ruta inicial
 @app.route("/")
@@ -140,6 +141,7 @@ def registrar():
 @app.route("/usuarios/busqueda", methods=["GET","POST"])
 def busuarios():
     if nom!="":
+        global pwdor
         frm=Buscar()
         frm1=Registro()
         #conecta a la base de datos
@@ -157,10 +159,10 @@ def busuarios():
                 row=cur.fetchone()
                 
                 if row:
-                    
                     frm1.usuario.data=row[1]
                     frm1.nombres.data=row[3]
                     frm1.apellidos.data=row[4]
+                    pwdor=row[2]
                     if row[5]=="Admin":
                         frm1.rol.choices=[("2","Administrador"), ("1","Usuario Final"),("3","SuperAdministrador")]
                     elif row[5]=="SuperAdmin":
@@ -212,7 +214,10 @@ def eusuario():
 #editar
 @app.route("/usuario/update", methods=["POST"])
 def uusuario():
-    global nom
+    global nom,pwdor
+    #//////////////////////////////
+    #/////Revisar esta logica/////
+    #/////////////////////////////
     if nom!="":
         frm=Buscar()
         frm1=Registro()
@@ -224,17 +229,27 @@ def uusuario():
             if usuario==busqueda:
                 nombres=escape(frm1.nombres.data)
                 apellidos=escape(frm1.apellidos.data)
+                password=request.form["clave"]
+                encrip = hashlib.sha256(password.encode('utf-8'))
+                pass_enc = encrip.hexdigest()
                 if frm1.rol.data==1:
                     erol="UsuarioFinal"
                 elif frm1.rol.data==2:
                     erol="Admin"
                 elif frm1.rol.data==3:
-                    erol="SuperAdmin"               
-                with sqlite3.connect(rutadb) as con:
-                   cur=con.cursor()
-                   #prepara sentencia SQL, preferiblemente no concatenar
-                   cur.execute("UPDATE usuarios SET nombres =?, apellidos=?,rol=? WHERE usuario=?",[nombres,apellidos,rol,usuario])
-                flash("Usuario Actualizado")
+                    erol="SuperAdmin" 
+                if pwdor == password:
+                    with sqlite3.connect(rutadb) as con:
+                        cur=con.cursor()
+                        #prepara sentencia SQL, preferiblemente no concatenar
+                        cur.execute("UPDATE usuarios SET nombres =?, apellidos=?,rol=? WHERE usuario=?",[nombres,apellidos,erol,usuario])
+                        
+                else:
+                    with sqlite3.connect(rutadb) as con:
+                        cur=con.cursor()
+                        cur.execute("UPDATE usuarios SET password=?, nombres =?, apellidos=?,rol=? WHERE usuario=?",[pass_enc,nombres,apellidos,erol,usuario])
+                flash("Usuario actualizado")
+                pwdor=""
             else:#si no, el usuario si fue modificado
                 with sqlite3.connect(rutadb) as con:
                     con.row_factory=sqlite3.Row #vista de diccionario
@@ -247,6 +262,9 @@ def uusuario():
                         frm1.usuario.data=""
                         flash("Usuario Existente, intente con otro")
                     else:
+                        password=request.form["clave"]
+                        encrip = hashlib.sha256(password.encode('utf-8'))
+                        pass_enc = encrip.hexdigest()
                         nombres=escape(frm1.nombres.data)
                         apellidos=escape(frm1.apellidos.data)
                         if frm1.rol.data==1:
@@ -254,12 +272,19 @@ def uusuario():
                         elif frm1.rol.data==2:
                             erol="Admin"
                         elif frm1.rol.data==3:
-                            erol="SuperAdmin"               
-                        with sqlite3.connect(rutadb) as con:
-                            cur=con.cursor()
-                            #prepara sentencia SQL, preferiblemente no concatenar, como el usuario fue cambiado, se debe buscar con la variable busqueda debido a que esta aun contiene su valor inicial
-                            cur.execute("UPDATE usuarios SET usuario=?, nombres =?, apellidos=?,rol=? WHERE usuario=?",[usuario,nombres,apellidos,rol,busqueda])
-                            flash("Usuario Actualizado")
+                            erol="SuperAdmin"
+                        
+                        if pwdor == password:  
+                            with sqlite3.connect(rutadb) as con:
+                                cur=con.cursor()             
+                                #prepara sentencia SQL, preferiblemente no concatenar, como el usuario fue cambiado, se debe buscar con la variable busqueda debido a que esta aun contiene su valor inicial
+                                cur.execute("UPDATE usuarios SET usuario=?, nombres =?, apellidos=?,rol=? WHERE usuario=?",[usuario,nombres,apellidos,erol,busqueda])                            
+                        else:
+                            with sqlite3.connect(rutadb) as con:
+                                cur=con.cursor()             
+                                cur.execute("UPDATE usuarios SET  usuario=?, password=?, nombres =?, apellidos=?,rol=? WHERE usuario=?",[usuario, pass_enc,nombres,apellidos,erol,busqueda])
+                        flash("usuario Actualizado")
+                        pwdor=""
                         #si busqueda es igual a nom y usuario es diferente de nom, significa que el usuario editado fue el logueado por lo que se deben refrescar la variable global nom y el campo de busqueda en el formulario
                         if busqueda==nom and usuario!=nom:
                             nom=usuario

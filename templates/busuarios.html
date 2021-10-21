@@ -36,6 +36,10 @@
                         {% endfor %}
                 </p>
                 <p>
+                    <tr><td><label for="clave">Password: </label></td>
+                    <td><input type="password" name="clave" value={{row[2]}}></td></tr>
+                </p>
+                <p>
                     <tr><td>{{ frm1.nombres.label }}</td>
                     <td>{{ frm1.nombres }}</td></tr>
                     {% for error in frm1.nombres.errors %}
