@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/base.css" type="text/css" />
+    <script src="{{ url_for('static',filename='js/core.js')}}"></script>
+    <link rel="shortcut icon" href="/static/icons/volkswagen_48px.png" type="image/x-icon">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <ul class="menu">
+        <!-- esta es la barra superior-->
+        <div class="fields">
+            {{ csrf_token }}
+            <li class="inicio"><a href="/">Volkswagen</a><img src="/static/icons/volkswagen_50px.png" alt=""></li>
+
+            <li class="shut"><a class="shutdown" href="/salir"><img src="/static/icons/shutdown_48px.png" alt=""></a></li>
+
+            <li class="user"><a href="/usuarios/{{nom}}">{% block user %} {% endblock %}</a></li>
+        </div>
+    </ul>
+    <div>{% block contents %}{% endblock %}</div>
+    <div id="content">{% block contentimg %}{% endblock %}</div>
+        <br>
+        <br>
+      <!-- Este es el footer-->
+      <!-- <footer>
+        <div class="footerContainer1">
+            <div class="containerFooter">
+                <div class="colum1">
+                    <p>Derechos reservados</p>
+                </div>
+
+                <div class="colum2">
+                    <h1>Redes Sociales</h1>
+                    <div class="row">
+                        <img src="/static/Icons/facebook_48px.png" alt="">
+                        <label>Facebook</label>
+                    </div>
+                    <div class="row">
+                        <img src="/static/Icons/YouTube_48px.png" alt="">
+                        <label>Youtube</label>
+                    </div>
+                    <div class="row">
+                        <img src="/static/Icons/Instagram_48px.png" alt="">
+                        <label>Instagram</label>
+                    </div>
+                    <div class="row">
+                        <img src="/static/Icons/twitter_48px.png" alt="">
+                        <label>Twitter</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+
+</body>
+
+</html>

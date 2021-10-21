@@ -1,0 +1,23 @@
+{% extends "servicios.html" %}
+{% block title %}Visualizar usuario{% endblock %}
+{% block contentimg %}
+<br><br><br>
+{% if rol == "SuperAdmin" %}
+    <table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
+        <h1 align="center">LISTA DE USUARIOS {{long}}</h1>
+        <thead>         
+            <tr>
+                <th>Id</th><th>Usuario</th><th>Nombres</th><th>Apellidos</th><th>Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(long) %}
+
+            <tr><td>{{i+1}}</td><td>{{usuarios[i][1]}}</td><td>{{usuarios[i][3]}}</td><td>{{usuarios[i][4]}}</td><td>{{usuarios[i][5]}}</td></tr>
+
+        {% endfor %}
+            
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}

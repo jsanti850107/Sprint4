@@ -1,0 +1,7 @@
+{% extends "servicios.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block contentimg %}
+    {% if rol == "SuperAdmin" %}
+        <img src="/static/img/Dashboard.png" alt="">
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "servicios.html" %}
+{% block title %}Perfil de usuario{% endblock %}
+{% block contentimg %}
+<br><br><br>
+
+<div align="center">
+    HOLA
+    <h1 align="center">INFORMACION DE USUARIO</h1>
+    <table  align="center">
+        
+        <tr>
+            <td>ID: </td><td>{{rows['idUsuario']}}</td>
+        </tr>
+        <tr>
+            <td>Usuario: </td><td>{{rows['usuario']}}</td>
+        </tr>
+        <tr>
+            <td>Nombres: </td><td>{{rows['nombres']}}</td>
+        </tr>
+        <tr>
+            <td>Apellidos: </td><td>{{rows['apellidos']}}</td>
+        </tr>
+        <tr>
+            <td>Rol: </td><td>{{rows['rol']}}</td>
+        </tr>
+        
+        </tbody>
+    
+    </table>
+   
+   </div>
+</div> 
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "servicios.html" %}
+{% block title %}Busqueda de usuarios{% endblock %}
+    {% block contentimg %}
+    <div class="centrado">
+        <form action="" method="post" onsubmit="return confirmarBorrado()">
+            {{ frm.hidden_tag() }}
+            <br><br><br>
+            <h1>BUSQUEDA DE USUARIOS</h1>
+            <p>
+                {{ frm.ubusqueda.label }}
+                {{ frm.ubusqueda }}
+                {% for error in frm.ubusqueda.errors %}
+                    <div>
+                    {{ error }}
+                    </div>
+                    {% endfor %}
+            </p>
+            {% for msg in get_flashed_messages() %}
+            <div align="center">
+                {{ msg }}
+            </div>
+            {% endfor %}
+            {{ frm.buscar }}
+            <!-- comentario -->
+            {% if row %}
+                {{ frm.hidden_tag() }}
+                <h4 align  ="center">RESULTADO BUSQUEDA</h4>
+                <table align="center">
+                <p>
+                    <tr><td>{{ frm1.usuario.label }}</td>
+                    <td>{{ frm1.usuario }}</td></tr>
+                    {% for error in frm1.usuario.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                        {% endfor %}
+                </p>
+                <p>
+                    <tr><td>{{ frm1.nombres.label }}</td>
+                    <td>{{ frm1.nombres }}</td></tr>
+                    {% for error in frm1.nombres.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                <tr><td>{{ frm1.apellidos.label }}</td>
+                <td>{{ frm1.apellidos }}</td></tr>
+                    {% for error in frm1.apellidos.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    <tr><td>{{ frm1.rol.label }}</td>
+                    <td>{{ frm1.rol }}</td></tr>
+                    {% for error in frm1.rol.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                </table>
+                <br>
+                <table align="center">
+                    <tr><td>{{ frm1.editar }}</td>
+                        {% if rol == "SuperAdmin" %}
+                            <td>{{ frm1.eliminar }}</td></tr>
+                        {% endif %}
+                </table>
+            {% endif %}
+       
+        </form>
+
+    </div>
+   
+    
+    {% endblock %}

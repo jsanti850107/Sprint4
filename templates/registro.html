@@ -1,0 +1,66 @@
+{% extends "servicios.html" %}
+{% block title %}Registro de usuarios{% endblock %}
+{% block contentimg %}
+    <div class="centrado">
+        <form action="" method="post">
+            {{ frm.hidden_tag() }}
+            <br><br><br>
+            <h1>CREACIÓN DE USUARIOS</h1>
+            <table align="center">
+                <p>
+                    <tr><td>{{ frm.usuario.label }}</td>
+                    <td>{{ frm.usuario }}</td></tr>
+                    {% for error in frm.usuario.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                        {% endfor %}
+                </p>
+                <p>
+                    <tr><td>{{ frm.password.label }}</td>
+                    <td>{{ frm.password }}</td></tr>
+                    {% for error in frm.password.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    <tr><td>{{ frm.nombres.label }}</td>
+                    <td>{{ frm.nombres }}</td></tr>
+                    {% for error in frm.nombres.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    <tr><td>{{ frm.apellidos.label }}</td>
+                    <td>{{ frm.apellidos }}</td></tr>
+                    {% for error in frm.apellidos.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <p>
+                    <tr><td>{{ frm.rol.label }}</td>
+                    <td>{{ frm.rol }}</td></tr>
+                    {% for error in frm.rol.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>                    
+                </table>
+            <br>
+            {% for msg in get_flashed_messages() %}
+            <div align="center">
+            {{ msg }}
+            </div >
+                {% endfor %}
+            <table align="center"><tr><td>{{ frm.enviar }}</td></tr></table>
+        </form>   
+    </div>
+{% endblock %}
+

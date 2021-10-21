@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}
+Nuestros Servicios
+{% endblock %}
+
+{% block user %} {{nom}} - {{rol}}{% endblock %}
+{% block contents %}
+{% if rol == "SuperAdmin" %}
+    <!--Esta es la barra lateral-->
+    <ul class="barralateral">
+        <!--menu lista productos-->
+        <div class="productos">
+            <li class="prod"><a href="">Productos</a></li>
+                <ul class="datos_productos">
+                    <li><a href="#">Crear producto</a></li>
+                    <li><a href="/productos">Editar producto</a></li>
+                    <li><a href="#">Eliminar producto</a></li>
+                    <li><a href="#">Buscar productos</a></li>
+                    <li><a href="#">Generar listado de producuctos requeridos</a></li>
+                    <li><a href="#">Visualizar productos</a></li>
+                    <li><a href="#">Calificar producto</a></li>
+                </ul>
+        </div>
+
+        <!--menu lista proveedores-->
+        <div class="proveedores">
+            <li><a href="">Proveedores</a></li>
+                <ul class="datos_proveedores">
+                    <li><a href="#">Crear proveedor</a></li>
+                    <li><a href="#">Editar proveedor</a></li>
+                    <li><a href="#">Eliminar proveedor</a></li>
+                    <li><a href="#">Buscar proveedor</a></li>
+                    <li><a href="#">Buscar proveedor por producto especifico</a></li>
+                </ul>
+        </div>
+        <!--menu lista usuarios-->
+        <div class="usuarios">
+            <li class="usu"><a href="/usuarios/visualizar">Usuarios</a></li>
+                <ul class="datos_usuarios">
+                    <li> <a href="/usuario/registro">Crear usuario </a></li>
+                    <li><a href="/usuarios/busqueda">Buscar usuario</a></li>
+                    <li><a href="/usuario/cmbpassword">Cambiar contraseña</a></li>
+                </ul>
+        </div>
+        <!--menu Dashboard-->
+        <div class="buscar-content">
+            <li class="buscar"><a href="/servicios/dash">Dashboard</a></li>
+        </div>
+    </ul>
+    
+    
+{% elif rol == "Admin" %}
+        <!--Esta es la barra lateral-->
+        <ul class="barralateral">
+            <!--menu lista productos-->
+            <div class="productos">
+                <li class="prod"><a href="">Productos</a></li>
+                    <ul class="datos_productos">
+                        <li><a href="#">Crear producto</a></li>
+                        <li><a href="/productos">Editar producto</a></li>
+                        <li><a href="#">Buscar productos</a></li>
+                        <li><a href="#">Generar listado de producuctos requeridos</a></li>
+                        <li><a href="#">Visualizar productos</a></li>
+                    </ul>
+            </div>
+            <!--menu lista usuarios-->
+            <div class="usuarios">
+                <li class="usu"><a href="/usuarios/visualizar">Usuarios</a></li>
+                    <ul class="datos_usuarios">
+                        <li> <a href="/usuario/registro">Crear usuario</a></li>
+                        <li> <a href="/usuarios/busqueda">Buscar usuario</a></li>
+                        <li><a href="/usuario/cmbpassword">Cambiar contraseña</a></li>
+                        <!-- <li><a href=""> Eliminar usuario</a></li> -->
+                    </ul>
+            </div>
+            <!--menu Dashboard-->
+            <div class="buscar-content">
+                <li class="buscar"><a href="/dash">Dashboard</a></li>
+            </div>
+        </ul>
+
+{% elif  rol == "UsuarioFinal" %}
+    <ul class="barralateral">
+        <!--menu lista productos-->
+        <div class="productos">
+            <li class="prod"><a href="">Productos</a></li>
+                <ul class="datos_productos">
+                    <li><a href="/productos">Editar producto</a></li>
+                    <li><a href="#">Buscar productos</a></li>
+                    <li><a href="#">Generar listado de producuctos requeridos</a></li>
+                    <li><a href="#">Visualizar productos</a></li>
+                    <li><a href="#">Calificar producto</a></li>
+                </ul>
+        </div>
+            <!--menu lista proveedores-->
+            <div class="proveedores">
+                <li><a href="">Proveedores</a></li>
+                    <ul class="datos_proveedores">
+                        <li><a href="#">Buscar proveedor</a></li>
+                        <li><a href="#">Buscar proveedor por producto especifico</a></li>
+                    </ul>
+            </div>
+            
+        <!--menu lista usuarios-->
+        <div class="usuarios">
+            <li class="usu"><a href="">Usuarios</a></li>
+                <ul class="datos_usuarios">
+                    <li> <a href="/usuario/cmbpassword">Cambiar contraseña de usuario</a></li>
+                </ul>
+        </div>
+    </ul>
+{% else %}
+    <p>error</p>
+{% endif %}
+{% endblock %}

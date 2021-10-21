@@ -1,0 +1,318 @@
+body{
+    background-color: white;
+}
+
+
+/*Esta es la barra superior*/
+.menu{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0c4c85;
+    z-index: 100;  
+     
+}
+
+.menu .inicio img{
+    height: 32px;
+    margin-top: 6px;
+    margin-right: 5px;
+    transform: translate(-5.5px, 0%);
+}
+
+
+.menu li{
+    float: left;
+    display: flex;
+}
+
+.menu li a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.user:hover{
+    background-color: #3490ec;
+}
+
+.inicio{
+    background-color: #4a9ae9;
+}
+
+.menu .user {
+    float: right;
+}
+
+.menu .shut{
+    float: right;
+    transform: scale(0.7);
+  
+}
+
+.menu a.shutdown{
+    height: 45px;
+    margin-bottom: 0px;
+    padding: 1px;
+}
+
+.menu a.shutdown img{
+    margin-right: 10px;
+}
+
+.menu a.shutdown img:hover{
+    filter: saturate(200%);
+}
+
+
+/*Aqui empieza la barra lateral*/
+
+.barralateral{
+    
+    list-style-type: none;
+    left: 0;
+    background-color: #0c4c85;
+    overflow: visible;
+    position: fixed;
+    height: 100%;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    margin-top: 49px;
+    
+}
+
+.barralateral li a{
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 13.9px;   
+}
+
+.barralateral li{
+    padding: 12px;
+    left: 0;
+    border-bottom: 1px solid white;
+    
+    
+}
+
+.barralateral li:hover{
+    background-color: #3490ec;
+   
+}
+
+/*Aqui empieza el menu de prductos de la barra lateral*/
+
+.datos_productos{
+    background-color: #3490ec;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    left: 0;
+    padding: 0%;
+    text-align: center;
+    justify-items: center;
+    width: 130%;
+}
+
+.barralateral .datos_productos{
+    transition: all 0.3s;
+    opacity: 0;
+    position: absolute;
+    visibility: hidden;
+    left: 101%;
+    top: -0.01%;
+}
+
+.datos_productos{
+    list-style-type: none;
+}
+
+
+/*Aqui empieza el menu de proveedores de la barra lateral*/
+
+.datos_proveedores{
+    background-color: #3490ec;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    left: 0;
+    padding: 0%;
+    text-align: center;
+    justify-items: center;
+    width: 130%;
+}
+
+.barralateral .datos_proveedores{
+    transition: all 0.3s;
+    opacity: 0;
+    position: absolute;
+    visibility: hidden;
+    left: 101%;
+    top: 7.4%;
+    
+}
+
+.datos_proveedores{
+    list-style-type: none;
+}
+
+
+/*Aqui esta el menu usuario de la barra lateral*/
+.datos_usuarios{
+    background-color: #3490ec;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    left: 0;
+    padding: 0%;
+    text-align: center;
+    justify-items: center;
+    width: 130%;
+}
+
+.barralateral .datos_usuarios{
+    transition: all 0.3s;
+    opacity: 0;
+    position: absolute;
+    visibility: hidden;
+    left: 101%;
+    top: 96px;
+}
+
+.barralateral :hover > ul{
+    opacity: 1;
+    visibility: visible;
+}
+
+.datos_usuarios{
+    list-style-type: none;
+}
+
+#content img{
+    margin-top: 5%;
+    margin-left: 15%;
+
+    border: blue;
+    border-style:solid;
+    border-radius: 10px;
+    right: 0;
+    width: 900px;
+    height: 500px;
+}
+
+/* ///////////////////////////// */
+
+footer{
+    background-color: #003E75;
+    color: white;
+    padding: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    
+     
+}
+
+.footerContainer1{
+    width: 100%;
+    max-width: 1200px;
+    
+}
+
+.containerFooter{
+ display: flex; 
+ justify-content: space-between;  
+}
+
+.colum1{
+    max-width: 50%;
+    text-align: center;
+}
+.colum1 h1{
+    font-size: 22px;
+}
+
+.colum1 p{
+    font-size: 14px;
+    color: white;
+    margin-top: 20px;
+}
+
+.colum2{
+    max-width: 50%;
+    text-align: center;
+
+}
+
+.colum2 h1{
+    font-size: 22px;
+}
+
+.row{
+    margin-top: 10px;
+    display: flex;
+}
+
+.row label{
+    margin-top: 10px;
+    margin-left: 7px;
+    
+}
+
+.row img{
+    width: 35px;
+    height: 35px;
+}
+
+@media screen and (max-width: 1100px){
+    
+    .container1{
+        flex: wrap;
+    }
+}
+
+@media all and (max-width: 600px){
+    div{
+        width:100%;
+        height:auto;
+        margin-left:10px;
+    }
+}
+
+body, html{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.banner{
+    background-color: black;
+    color: rgb(109, 218, 181);
+    padding: 10px;
+}
+
+.centrado{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    flex-direction: column;
+}
+
+
+
+
+

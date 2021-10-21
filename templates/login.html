@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block cabeza %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/icons/volkswagen_48px.png" type="image/x-icon">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/login.css" type="text/css" />
+    {% endblock %}
+</head>
+{% block contenido %}
+<body>
+    
+    <div class="bodyContainer">
+        <ul>
+            <!-- Menu-->
+            <li class="inicio"><a href="/">Volkswagen</a><img src="/static/icons/volkswagen_50px.png" alt=""></li>
+        </ul>
+
+
+        <div class="container1">
+            {{ csrf_token }}
+            <div class="caja">
+                <!--Contenedor de imagen-->
+                <img src="/static/Img/taos-volkswagen-colombia.jpg" alt="">
+            </div>
+
+            <div class="cajalogin">
+                <img class="logo" src="/static/Img/e15015231c034be91405872269f8b0fe.jpeg" alt="">
+
+                <h2>Login</h2>
+
+                <div class="fields">
+                    <form action="/ingreso" method="POST">
+                        <div class="datos">
+                            <i><img src="/static/icons/user_50px.png" alt=""></i>
+                            <input type="usuario" placeholder="Usuario" name="nombre" autocomplete="off">
+                        </div>
+
+                        <div class="datos">
+                            <i><img src="/static/icons/password_32px.png" alt=""></i>
+                            <input type="password" placeholder="Password" name="psw">
+                        </div>
+                        <button class="btnlogin" type="submit" value="login">Login</button>
+                        {% for msg in get_flashed_messages() %}
+                        <div class="msg">
+                            <h4>{{ msg }}</h4>
+                        </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Este es el footer-->
+    <footer>
+        <div class="footerContainer1">
+            <div class="containerFooter">
+                <div class="colum1">
+                    <h1>Sobre nosotros</h1>
+                    <p>Al ingresar, navegar y hacer uso del Sitio Web, el usuario se compromete a comportarse de forma
+                        correcta y bajo el principio de buena fe, a realizar un buen uso de la misma y a no realizar
+                        conductas que vayan contra la ley, los derechos de Volkswagen AG y/o Porsche Colombia S.A.S. o
+                        intereses de terceros. El uso de la información y del contenido del Sitio Web será
+                        responsabilidad exclusiva de quien lo realice, por lo cual responderá de forma personal en caso
+                        que sea requerido, por cualquier motivo, por parte de las autoridades pertinentes.
+
+                        Volkswagen AG y/o Porsche Colombia S.A.S. no adquieren obligación alguna de controlar la
+                        utilización que los usuarios hacen del Sitio Web, sus servicios o contenidos, ni de que ésta sea
+                        utilizada de conformidad con los presentes términos y condiciones, ni de manera prudente y
+                        diligente.</p>
+                </div>
+
+                <div class="colum2">
+                    <h1>Redes Sociales</h1>
+                    <div class="row">
+                        <img src="/static/Icons/facebook_48px.png" alt="">
+                        <label>Facebook</label>
+                    </div>
+                    <div class="row">
+                        <img src="/static/Icons/YouTube_48px.png" alt="">
+                        <label>Youtube</label>
+                    </div>
+                    <div class="row">
+                        <img src="/static/Icons/Instagram_48px.png" alt="">
+                        <label>Instagram</label>
+                    </div>
+                    <div class="row">
+                        <img src="/static/Icons/twitter_48px.png" alt="">
+                        <label>Twitter</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+
+</html>
+{% endblock %}
