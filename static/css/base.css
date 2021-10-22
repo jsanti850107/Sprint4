@@ -81,7 +81,7 @@ body{
 /*Aqui empieza la barra lateral*/
 
 .barralateral{
-    
+    z-index: 1;
     list-style-type: none;
     left: 0;
     background-color: #0c4c85;
