@@ -382,7 +382,6 @@ def calificar():
             calificacion=request.values.get("star")
             producto=frm.sf_producto.data
             observaciones=frm.observaciones.data
-            #flash(f"{calificacion},{producto},{observaciones}")
             if calificacion!=None:
                 with sqlite3.connect(rutadb) as con:
                     cur = con.cursor()
@@ -393,9 +392,6 @@ def calificar():
             else:
                 flash("No olvide calificar el producto")
                 calificacion=""
-            
-
-            #return render("calificacion.html",nom=nom,rol=rol,frm=frm,rows=rows)
         return render("calificacion.html",nom=nom,rol=rol,frm=frm,rows=rows)
     else:
         return redirect("/ingreso")
