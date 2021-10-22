@@ -354,9 +354,11 @@ def vusuarios():
 #Ruta a Dashboard
 @app.route("/servicios/dash", methods=["GET"])
 def dash():
+    
     global nom
     if nom!="":
-        return render("dashboard.html",nom=nom,rol=rol)
+        varp=500
+        return render("dashboard.html",nom=nom,rol=rol,varp=varp)
     else:
         return redirect("/ingreso")
 

@@ -9,6 +9,8 @@
     <script src="{{ url_for('static',filename='js/core.js')}}"></script>
     <link rel="shortcut icon" href="/static/icons/volkswagen_48px.png" type="image/x-icon">
     <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    {% block grafico %}{% endblock %}
 </head>
 
 <body>

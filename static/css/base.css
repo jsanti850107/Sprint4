@@ -2,6 +2,10 @@ body{
     background-color: white;
 }
 
+#chart_div{
+    margin-left: 20%;
+    right: 0;
+}
 
 /*Esta es la barra superior*/
 .menu{
