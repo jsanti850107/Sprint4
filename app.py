@@ -4,7 +4,7 @@ import os
 from werkzeug.utils import escape
 
 from wtforms import meta
-from forms.formularios import Buscar, Chpass, Editar, Registro,Login,Productos, Editar
+from forms.formularios import Buscar, Calificar, Chpass, Editar, Registro,Login,Productos, Editar
 import hashlib
 
 app=Flask(__name__)
@@ -362,6 +362,60 @@ def dash():
     else:
         return redirect("/ingreso")
 
+@app.route("/servicios/calificar", methods=["GET","POST"])
+def calificar():
+    if nom!="":
+        frm=Calificar()
+        #////////////////
+        with sqlite3.connect(rutadb) as con:
+            con.row_factory=sqlite3.Row #lista de diccionario
+            cur = con.cursor()
+            cur.execute("select id_linea, nom_linea from linea order by nom_linea" )
+            rows=cur.fetchall()
+                 
+            #convierte los datos en una lista de tuplas y lo asigna al select marca
+            lista=[tuple(r) for r in rows]
+            lista.insert(0,("","-- Seleccione una opción --"))  
+            frm.sf_producto.choices=lista
+        #///////////////////////////////////////////
+        if frm.validate_on_submit:
+            calificacion=request.values.get("star")
+            producto=frm.sf_producto.data
+            observaciones=frm.observaciones.data
+            #flash(f"{calificacion},{producto},{observaciones}")
+            if calificacion!=None:
+                with sqlite3.connect(rutadb) as con:
+                    cur = con.cursor()
+                    cur.execute("INSERT INTO califica_productos(id_linea,calificacion,observaciones)values(?,?,?)",(producto,calificacion,observaciones))
+                    #se ejecuta la sentencia
+                    con.commit()
+                flash("Producto calificado con éxito")
+            else:
+                flash("No olvide calificar el producto")
+                calificacion=""
+            
+
+            #return render("calificacion.html",nom=nom,rol=rol,frm=frm,rows=rows)
+        return render("calificacion.html",nom=nom,rol=rol,frm=frm,rows=rows)
+    else:
+        return redirect("/ingreso")
+
+@app.route("/servicios/calificar/listar", methods=["GET"])
+def listarCalificiacion():
+    if nom!="":
+         #conecta a la base de datos
+        with sqlite3.connect(rutadb) as con:
+            con.row_factory=sqlite3.Row #lista de diccionario
+            # crea un cursor para manipular la base de datos
+            cur=con.cursor()
+            #prepara sentencia SQL, preferiblemente no concatenar
+            cur.execute("select califica_productos.*, linea.nom_linea from califica_productos inner join linea on linea.id_linea = califica_productos.id_linea")
+            #se ejecuta la sentencia
+            rows=cur.fetchall()
+            long=len(rows)
+        return render("listarcalificacion.html",nom=nom,rol=rol,calificaciones=rows,long=long)
+    else:
+        return redirect("/ingreso")
 
 if __name__=="__main__":
     app.run(debug=True)

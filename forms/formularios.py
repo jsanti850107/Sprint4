@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField,SelectField
+from wtforms import StringField, PasswordField, SubmitField,SelectField,TextAreaField
 from wtforms.validators import DataRequired
 
 class Registro(FlaskForm):
@@ -47,3 +47,10 @@ class Chpass(FlaskForm):
     npwd=PasswordField("Nueva contraseña: ", validators=[DataRequired()])
     cnpwd=PasswordField("Confirmar contraseña: ", validators=[DataRequired()])
     enviar = SubmitField("cambiar") 
+
+class Calificar(FlaskForm):
+    sf_producto = SelectField("Producto:",validators=[DataRequired(message="Seleccione un producto")])
+    observaciones = TextAreaField("Observaciones:")
+    enviar = SubmitField("Enviar",render_kw=({"onfocus":"cambiaRuta('/servicios/calificar')"}))
+    listar = SubmitField("Listar",render_kw=({"onfocus":"cambiaRuta('/servicios/calificar/listar')"}))
+    

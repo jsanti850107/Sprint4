@@ -1,0 +1,73 @@
+{% extends "servicios.html" %}
+{% block title %}Calificar Productos{% endblock %}
+{% block contentimg %}
+<br><br><br>
+    <div class="centrado">
+        <form action="" method="post">
+            {{ frm.hidden_tag() }}
+            <br><br><br>
+            <h1>CALIFICAR PRODUCTOS</h1>
+            <table align="center">
+                <p>
+                    <tr><td>{{ frm.sf_producto.label }}</td>
+                    <td>{{ frm.sf_producto }}</td></tr>
+                    {% for error in frm.sf_producto.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                <div class="rating" class="centrado">
+                    <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                    <label for="star5" >☆</label>
+                    <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                    <label for="star4" >☆</label>
+                    <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                    <label for="star3" >☆</label>
+                    <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                    <label for="star2" >☆</label>
+                    <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                    <label for="star1" >☆</label>
+                    <div class="clear"></div>
+                </div>
+                <p>
+                    <tr><td>{{ frm.observaciones.label }}</td>
+                    <td>{{ frm.observaciones }}</td></tr>
+                    {% for error in frm.observaciones.errors %}
+                        <div>
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                </p>
+                </table>
+            <br>
+            {% for msg in get_flashed_messages() %}
+            <div align="center">
+            {{ msg }}
+            </div >
+                {% endfor %}
+            <table align="center"><tr><td>{{ frm.enviar }}</td></tr></table>
+        </form>  
+    </div> 
+    <div align="center"><form action="/servicios/calificar/listar">
+    <input type="submit" name="" id="" value="Listar">
+    
+    </form></div>
+    <!-- <div class="txt-center">
+        <form>
+              <div class="rating">
+                  <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                  <label for="star5" >☆</label>
+                  <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                  <label for="star4" >☆</label>
+                  <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                  <label for="star3" >☆</label>
+                  <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                  <label for="star2" >☆</label>
+                  <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                  <label for="star1" >☆</label>
+                  <div class="clear"></div>
+              </div>
+          </form>
+      </div> -->
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "servicios.html" %}
+{% block title %}Listado de Calificaciones{% endblock %}
+{% block contentimg %}
+<br><br><br>
+<div class="centrado"><h1>TOTAL CALIFICACIONES {{long}}</h1></div>
+<table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
+    <thead>         
+        <tr>
+            <th>No</th><th>Id Linea</th><th>Nombre Linea</th><th>Calificacion</th><th>Observaciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(long) %}
+
+        <tr><td>{{i+1}}</td><td>{{calificaciones[i][1]}}</td><td>{{calificaciones[i][4]}}</td><td>{{calificaciones[i][2]}} Estrella(s)</td><td>{{calificaciones[i][3]}}</td></tr>
+
+    {% endfor %}
+        
+    </tbody>
+</table>
+{% endblock %}
