@@ -1,17 +1,19 @@
 {% extends "servicios.html" %}
 {% block title %}Dashboard{% endblock %}
 {% block grafico %}
+
     <div align="center">
         <script type="text/javascript">
-            var carro= parseInt('{{varp}}');
+            var vehiculos= JSON.parse('{{varp | tojson | safe}}');
+            var carro= JSON.parse('{{var1 | tojson | safe}}');
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(drawVisualization);
         
             function drawVisualization() {
             // Some raw data (not necessarily accurate)
             var data = google.visualization.arrayToDataTable([
-                ['Month', 'TAOS', 'T-CROSS', 'BEATTLE', 'GOL', 'SAVEIRO PLUS', 'POLO'],
-                ['2017', carro,      938,         522,             998,           450,      614.6],
+                vehiculos,
+                carro,
                 ['2018',  135,      1120,        599,             1268,          288,      682],
                 ['2019',  157,      1167,        587,             807,           397,      623],
                 ['2020',  139,      1110,        615,             968,           215,      609.4],

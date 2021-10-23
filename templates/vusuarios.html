@@ -2,7 +2,7 @@
 {% block title %}Visualizar usuario{% endblock %}
 {% block contentimg %}
 <br><br><br>
-{% if rol == "SuperAdmin" %}
+{% if session.rol == "SuperAdmin" or session.rol == "Admin" %}
     <table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
         <h1 align="center">LISTA DE USUARIOS {{long}}</h1>
         <thead>         
@@ -19,5 +19,8 @@
             
         </tbody>
     </table>
+{% else %}
+    <div align="center"><h1>Acceso Denegado</h1></div>
+
 {% endif %}
 {% endblock %}

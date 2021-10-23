@@ -1,4 +1,4 @@
-from flask import Flask, render_template as render,request,flash, redirect
+from flask import Flask, render_template as render,request,flash, redirect, session
 import sqlite3
 import os
 from werkzeug.utils import escape
@@ -26,12 +26,13 @@ def salir():
         global nom,rol
         nom=""
         rol=""
+        session.clear()
         return redirect("/ingreso")
 
 #///Ruta para mostrar el perfil
 @app.route("/usuarios/<id_usuario>", methods=["GET"])
 def info_usuario(id_usuario):
-    if nom!="":
+    if 'usuario' in session:
         with sqlite3.connect(rutadb) as con:
             con.row_factory=sqlite3.Row #lista de diccionario
             cur=con.cursor()
@@ -39,7 +40,7 @@ def info_usuario(id_usuario):
             cur.execute("SELECT * FROM usuarios WHERE usuario =?",[id_usuario])
             rows= cur.fetchone()
             long=len(rows)
-            return render("pusuario.html",nom=nom,rol=rol,rows=rows,long=long)
+            return render("pusuario.html",rows=rows,long=long)
     else:
         return redirect("/ingreso")
 
@@ -61,12 +62,16 @@ def ingreso():
         pass_enc = encrip.hexdigest()
         #conecta a la base de datos
         with sqlite3.connect(rutadb) as con:
+            con.row_factory = sqlite3.Row
             cur=con.cursor()
             #sentencia para validar usuario
             cur.execute("SELECT * FROM usuarios WHERE usuario =? AND password=?",[nom,pass_enc])
             row= cur.fetchone()
             #si row tiene informacion significa que los datos de ingreso son correctos, si no refirige a login con mensaje de error
             if row:
+                session['usuario']=nom
+                session['pwd']=row['password']
+                session['rol']=row['rol']
                 rol=row[5]
                 return redirect("/servicios")
             else: 
@@ -77,7 +82,8 @@ def ingreso():
 @app.route("/servicios", methods=["GET"])
 def servicios():
     global nom,rol
-    if nom!="":
+    if 'usuario' in session:
+    #if nom!="":
         return render("servicios.html",nom=nom,rol=rol)
     else:
         return redirect("/ingreso")
@@ -86,7 +92,7 @@ def servicios():
 @app.route("/usuario/registro",methods=["GET","POST"])
 def registrar():
     global nom,rol
-    if nom!="":
+    if 'usuario' in session:
         frm=Registro()
         if frm.validate_on_submit():
             username = frm.usuario.data
@@ -133,14 +139,14 @@ def registrar():
                         frm.rol.data=""
                         flash("Guardado con exito")
                         #return "guardado con exito <a href='/servicios'>Servicios</a>"
-        return render("registro.html",frm=frm,nom=nom,rol=rol)
+        return render("registro.html",frm=frm)
     else:
         return redirect("/ingreso")
 
 #Ruta para renderizar pagina de busqueda
 @app.route("/usuarios/busqueda", methods=["GET","POST"])
 def busuarios():
-    if nom!="":
+    if 'usuario' in session:
         global pwdor
         frm=Buscar()
         frm1=Registro()
@@ -187,7 +193,7 @@ def busuarios():
 #eliminar
 @app.route("/usuario/delete", methods=["POST"])
 def eusuario():
-    if nom!="":
+    if 'usuario' in session:
         frm1=Registro()
         frm=Buscar()
         user=escape(frm1.usuario.data)
@@ -218,7 +224,7 @@ def uusuario():
     #//////////////////////////////
     #/////Revisar esta logica/////
     #/////////////////////////////
-    if nom!="":
+    if 'usuario' in session:
         frm=Buscar()
         frm1=Registro()
         if frm.validate_on_submit():
@@ -288,6 +294,7 @@ def uusuario():
                         #si busqueda es igual a nom y usuario es diferente de nom, significa que el usuario editado fue el logueado por lo que se deben refrescar la variable global nom y el campo de busqueda en el formulario
                         if busqueda==nom and usuario!=nom:
                             nom=usuario
+                            session['usuario']=nom
                             #frm.ubusqueda.data=nom
     else:
         return redirect("/ingreso")
@@ -298,7 +305,7 @@ def uusuario():
 #Cambiar Contraseña
 @app.route("/usuario/cmbpassword", methods=["POST","GET"])
 def cbiopassword():
-    if nom!="":
+    if 'usuario' in session:
         frm=Chpass()
         if frm.validate_on_submit():
             password=frm.pwd.data
@@ -335,7 +342,7 @@ def cbiopassword():
 #Ruta para renderizar pagina de visualizar usuarios
 @app.route("/usuarios/visualizar", methods=["GET"])
 def vusuarios():
-    if nom!="":
+    if 'usuario' in session:
         #conecta a la base de datos
         with sqlite3.connect(rutadb) as con:
             # crea un cursor para manipular la base de datos
@@ -347,24 +354,23 @@ def vusuarios():
             usuarios=cur.fetchall()
             long=len(usuarios)
         #return f"{usuarios[0][1]}"
-        return render("vusuarios.html",nom=nom,rol=rol,usuarios=usuarios,long=long)
+        return render("vusuarios.html",usuarios=usuarios,long=long)
     else:
         return redirect("/ingreso")
 
 #Ruta a Dashboard
 @app.route("/servicios/dash", methods=["GET"])
 def dash():
-    
-    global nom
-    if nom!="":
-        varp=500
-        return render("dashboard.html",nom=nom,rol=rol,varp=varp)
+    if 'usuario' in session:
+        varp=['Month', 'TAOS', 'T-CROSS', 'BEATTLE', 'GOL', 'SAVEIRO PLUS', 'POLO']
+        var1=[2017, 500,      938,         522,             998,           450,      614.6]
+        return render("dashboard.html",varp=varp,var1=var1)
     else:
         return redirect("/ingreso")
 
 @app.route("/servicios/calificar", methods=["GET","POST"])
 def calificar():
-    if nom!="":
+    if 'usuario' in session:
         frm=Calificar()
         #////////////////
         with sqlite3.connect(rutadb) as con:
@@ -392,13 +398,13 @@ def calificar():
             else:
                 flash("No olvide calificar el producto")
                 calificacion=""
-        return render("calificacion.html",nom=nom,rol=rol,frm=frm,rows=rows)
+        return render("calificacion.html",frm=frm,rows=rows)
     else:
         return redirect("/ingreso")
 
 @app.route("/servicios/calificar/listar", methods=["GET"])
 def listarCalificiacion():
-    if nom!="":
+    if 'usuario' in session:
          #conecta a la base de datos
         with sqlite3.connect(rutadb) as con:
             con.row_factory=sqlite3.Row #lista de diccionario

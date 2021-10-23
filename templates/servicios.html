@@ -4,9 +4,9 @@
 Nuestros Servicios
 {% endblock %}
 
-{% block user %} {{nom}} - {{rol}}{% endblock %}
+{% block user %} {{session.usuario}} - {{session.rol}}{% endblock %}
 {% block contents %}
-{% if rol == "SuperAdmin" %}
+{% if session.rol == "SuperAdmin" %}
     <!--Esta es la barra lateral-->
     <ul class="barralateral">
         <!--menu lista productos-->
@@ -50,7 +50,7 @@ Nuestros Servicios
     </ul>
     
     
-{% elif rol == "Admin" %}
+{% elif session.rol == "Admin" %}
         <!--Esta es la barra lateral-->
         <ul class="barralateral">
             <!--menu lista productos-->
@@ -76,11 +76,11 @@ Nuestros Servicios
             </div>
             <!--menu Dashboard-->
             <div class="buscar-content">
-                <li class="buscar"><a href="/dash">Dashboard</a></li>
+                <li class="buscar"><a href="/servicios/dash">Dashboard</a></li>
             </div>
         </ul>
 
-{% elif  rol == "UsuarioFinal" %}
+{% elif session.rol == "UsuarioFinal" %}
     <ul class="barralateral">
         <!--menu lista productos-->
         <div class="productos">
@@ -104,7 +104,7 @@ Nuestros Servicios
             
         <!--menu lista usuarios-->
         <div class="usuarios">
-            <li class="usu"><a href="">Usuarios</a></li>
+            <li class="usu"><a href="/usuarios/visualizar">Usuarios</a></li>
                 <ul class="datos_usuarios">
                     <li> <a href="/usuario/cmbpassword">Cambiar contraseña de usuario</a></li>
                 </ul>

@@ -22,7 +22,7 @@
 
             <li class="shut"><a class="shutdown" href="/salir"><img src="/static/icons/shutdown_48px.png" alt=""></a></li>
 
-            <li class="user"><a href="/usuarios/{{nom}}">{% block user %} {% endblock %}</a></li>
+            <li class="user"><a href="/usuarios/{{session.usuario}}">{% block user %} {% endblock %}</a></li>
         </div>
     </ul>
     <div>{% block contents %}{% endblock %}</div>
