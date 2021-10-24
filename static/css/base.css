@@ -1,5 +1,10 @@
+*{
+    box-sizing: border-box;
+}
+
 body{
     background-color: white;
+    
 }
 
 #chart_div{
@@ -364,6 +369,118 @@ body, html{
       color: #FFD700;
   }
   
+/* AQUI ES EL DISEÑO DEL FORMULARIO EDITAR */
+.content-form-proveedor{
+    max-width: 1170px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1.5em;
+    transform: translate(95px, 0%);
+}
 
+.content-form-proveedor h1{
+    text-align: center;
+}
+
+.formulario-wrapper{
+    box-shadow: 0 0 20px rgba(92, 91, 91, 0.685) ;
+    border-radius: 30px;
+}
+
+.formulario-wrapper >*{
+    padding: 1em;
+}
+
+.proveedores-form{
+    background-color: rgb(53, 71, 116);
+    color: white;
+    border-radius: 30px;
+}
+
+.proveedores-form form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.proveedores-form .block{
+grid-column: 1/3;
+} 
+
+.proveedores-form p{
+    margin: 0;
+    padding: 0.5em;
+}
+
+.proveedores-form form button, .proveedores-form input, .proveedores-form form textarea{
+    width: 100%;
+    padding: .7em;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-shadow: inset 1px 5px 20px rgba(63, 63, 65, 0.671);
+}
+
+.proveedores-form form .btn{
+    box-shadow: none;
+    background-color: rgb(38, 82, 201);
+    color: white;
+    padding: 1em;
+}
+.proveedores-form form .btn:hover{
+    background-color: rgb(43, 73, 172);
+   
+}
+
+/* large screen */
+@media (min-width: 700PX){
+    body{
+       padding: 0 4rem; 
+    }
+
+    .proveedores-form form{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .proveedores-form .block{
+        grid-column: 3/3;
+        
+    }
+}
+
+#tabla table{
+    background-color: white;
+    text-align: left;
+    border-collapse: collapse;
+    position: fixed;
+    overflow-x: scroll;
+    transform: translate(10px, 0);
+    
+    
+
+}
+
+#tabla th{
+    padding: 15px;
+}
+
+#tabla td{
+    padding: 5px;
+}
+
+#tabla thead{
+    background-color: #1f6099;
+    border-bottom: solid 5px #b8b8b8;
+    color: white;
+}
+
+#tabla tr:nth-child(even){
+    background-color: #ddd;
+}
+
+#tabla tr:hover td{
+    background-color: #063358;
+    color: white;
+}
 
 

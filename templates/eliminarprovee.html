@@ -1,0 +1,70 @@
+{% extends "servicios.html" %}
+
+
+{% block title %} Eliminar Proveedor {% endblock %}
+
+{% block contentimg %}
+<br>
+<br>
+<br>
+<br>
+{% for msg in get_flashed_messages() %}
+<div align="center">
+    {{ msg }}
+</div>
+{% endfor %}
+<div align="center">
+    <form action="/eliminar/proveedor" , method="POST">
+        <label>Escoge el proveedor a eliminar: </label><input type="text" name="eliminarp" placeholder="Cod del Proveedor">
+
+        <input type="submit" value="Eliminar">
+    </form>
+</div>
+
+
+<div id="tabla">
+    <table>
+        <thead>
+            <tr>
+                <th>Cod</th>
+                <th>Nombre</th>
+                <th>Razón Social</th>
+                <th>Domicilio</th>
+                <th>Código Postal</th>
+                <th>Localidad</th>
+                <th>Provincia</th>
+                <th>Pais</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Web</th>
+                <th>Rut</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+
+            {% for i in range (long) %}
+            <tr>
+                <td>{{proveedor[i][0]}}</td>
+                <td>{{proveedor[i][1]}}</td>
+                <td>{{proveedor[i][2]}}</td>
+                <td>{{proveedor[i][3]}}</td>
+                <td>{{proveedor[i][4]}}</td>
+                <td>{{proveedor[i][5]}}</td>
+                <td>{{proveedor[i][6]}}</td>
+                <td>{{proveedor[i][7]}}</td>
+                <td>{{proveedor[i][8]}}</td>
+                <td>{{proveedor[i][9]}}</td>
+                <td>{{proveedor[i][10]}}</td>
+                <td>{{proveedor[i][11]}}</td>
+                <td>{{proveedor[i][12]}}</td>
+            </tr>
+                     
+            {% endfor %}
+
+        
+            
+        </tbody>
+    </table>
+</div>
+{% endblock %}

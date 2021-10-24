@@ -419,5 +419,193 @@ def listarCalificiacion():
     else:
         return redirect("/ingreso")
 
+#!!!-----------------------¡¡COMIENZA PROVEEDORES!!------------------!!!
+#CREAR PROVEEDOR COMIENZA AQUI
+
+@app.route("/crear/proveedor", methods = ["GET", "POST"])
+def crearProve():
+    global nom
+    if 'usuario' in session:
+        if request.method == "GET":
+            return render("crearProvee.html", nom=nom, rol=rol)
+
+        else:
+            with sqlite3.connect("inventario.db") as con:
+                cur=con.cursor()
+
+            if request.form["submit_button"] == "Guardar":
+         #Tomando los datos de la variable pasadas por el input
+                
+                name = request.form["name"]
+                razonsocial = request.form["razonsocial"]
+                domicilio = request.form["domicilio"]
+                postal = request.form["postal"]
+                localidad = request.form["localidad"]
+                provincia = request.form["provincia"]
+                pais = request.form["pais"]
+                tlf = request.form["tlf"]
+                correo = request.form["correo"]
+                web = request.form["web"]
+                rut = request.form["rut"]
+
+                cur.execute("INSERT INTO proveedor (nom_proveedor, rsocial, dom_proveedor, postal_provee, localidad_prov, provincia_prov, pais, tel_proveedor, email, web_prov, rut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (name, razonsocial, domicilio, postal, localidad, provincia, pais, tlf, correo, web, rut))
+
+                con.commit()
+
+                name = ""
+                razonsocial = ""
+                domicilio = ""
+                postal = ""
+                localidad = ""
+                provincia = ""
+                pais = ""
+                tlf = ""
+                correo = ""
+                web = ""
+                rut = ""
+
+                flash("Guardado con exito")
+            return render ("crearProvee.html", nom=nom, rol=rol)
+    else:
+        return redirect("/ingreso")
+
+#----------------COMIENZA ELIMINAR PROVEEDOR------------------
+
+@app.route("/eliminar/proveedor", methods = ["GET", "POST"])
+def delproveedor():
+    global nom
+    long = 0
+    proveedor={}
+    if 'usuario' in session:
+        if request.method == "GET":
+    
+            with sqlite3.connect("inventario.db") as con:
+                cur = con.cursor()
+                cur.execute("SELECT * FROM proveedor")
+                con.commit()
+                proveedor=cur.fetchall()
+                long=len(proveedor)
+            return render("eliminarprovee.html", long=long, nom=nom, rol=rol, proveedor=proveedor)
+
+        else:
+            dato = request.form["eliminarp"]
+            dato = int(dato)
+            with sqlite3.connect("inventario.db") as con:
+                cur = con.cursor()
+                cur.execute("DELETE FROM proveedor WHERE id_proveedor=?",[dato])
+                con.commit()
+                con.close
+            flash("Eliminado con exito")
+            
+            with sqlite3.connect("inventario.db") as con:
+                cur = con.cursor()
+                cur.execute("SELECT * FROM proveedor")
+                con.commit()
+                proveedor=cur.fetchall()
+                long=len(proveedor)
+            return render("eliminarprovee.html", long=long, nom=nom, rol=rol, proveedor=proveedor)
+    else:
+        return redirect("/ingreso")
+
+#-------------------COMIENZA BUSCAR PROVEEDOR-----------------
+
+@app.route("/buscar/proveedor", methods = ["GET", "POST"])
+def buscar_proveedor():
+    global nom
+    row = []
+    long = 0
+    if 'usuario' in session:
+        if request.method == "POST":
+            provee_buscado = request.form["datos"]
+            if provee_buscado != "":
+                with sqlite3.connect(rutadb) as con:
+
+                    cur = con.cursor()
+
+                    cur.execute("SELECT * FROM proveedor WHERE id_proveedor=?",[provee_buscado])
+                    row = cur.fetchone()
+                    long = len(row)
+            
+            else:
+                flash("El input esta vacio")
+        return render("buscarprovee.html", nom=nom, rol=rol, row = row, long = long)
+    else:
+        return redirect("/ingreso")
+
+#-------------------COMIENZA EDITAR PROVEEDOR-----------------
+
+provee_buscado2 = ""
+row2=[]
+
+#Ruta que lleva a la pagina editar
+@app.route("/editar/proveedor", methods = ["GET", "POST"])
+def editar_prov():
+    global nom
+    global provee_buscado2
+    row2 = []
+    long = 0
+
+    if 'usuario' in session:
+        if request.method == "POST":
+            provee_buscado2 = request.form["datos2"]
+            if provee_buscado2 != "":
+                with sqlite3.connect(rutadb) as con:
+
+                    cur = con.cursor()
+
+                    cur.execute("SELECT * FROM proveedor WHERE id_proveedor=?",[provee_buscado2])
+                    row2 = cur.fetchone()
+                    long = len(row2)
+                    
+                    
+            else:
+                flash("El input esta vacio")
+        return render("editar_prov.html", nom=nom, rol=rol, row2 = row2, long = long)
+    else:
+        return redirect("/ingreso")
+
+@app.route("/editar", methods = ["GET","POST"])
+def editar():
+    global nom
+
+    name = request.form["name2"]
+    razonsocial = request.form["razonsocial2"]
+    domicilio = request.form["domicilio2"]
+    postal = request.form["postal2"]
+    localidad = request.form["localidad2"]
+    provincia = request.form["provincia2"]
+    pais = request.form["pais2"]
+    tlf = request.form["tlf2"]
+    correo = request.form["correo2"]
+    web = request.form["web2"]
+    rut = request.form["rut2"]
+    if nom != "":
+        if request.method == "POST":
+            with sqlite3.connect(rutadb) as con:
+                cur = con.cursor()
+                cur.execute("UPDATE proveedor SET nom_proveedor=?, rsocial=?, dom_proveedor=?, postal_provee=?, localidad_prov=?, provincia_prov=?, pais=?, tel_proveedor=?, email=?, web_prov=?, rut=? WHERE id_proveedor=?",[name, razonsocial, domicilio, postal, localidad, provincia, pais, tlf, correo, web, rut, provee_buscado2])
+            flash("Editado con exito")
+
+        return render("editar_prov.html", row2=row2, nom=nom, rol=rol)
+    else:
+        return redirect("/ingreso")
+
+#---------------COMIENZA VISUALIZAR PROVEEDORES---------------
+
+@app.route("/proveedores")
+def list_proveedores():
+    if 'usuario' in session: 
+        with sqlite3.connect(rutadb) as con:
+
+            cur=con.cursor()
+            cur.execute("SELECT * FROM proveedor")
+            con.commit()
+            proveedor=cur.fetchall()
+            long=len(proveedor)
+    
+        return render("resultado.html",proveedor=proveedor, nom=nom, rol=rol,long=long)
+    else:
+        return redirect("/ingreso")
+
 if __name__=="__main__":
     app.run(debug=True)

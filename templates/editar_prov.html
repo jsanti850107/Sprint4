@@ -1,0 +1,108 @@
+{% extends "servicios.html" %}
+
+{% block title %} Editar Proveedor {% endblock %}
+
+{% block contentimg %}
+<br>
+<br>
+<br>
+<div id="buscar">
+    <form action="/editar/proveedor", method="POST">
+        <label>Buscar: </label><input type="search" name="datos2">
+
+
+        <input type="submit" value="Buscar">
+    </form>
+    <input onclick="mostrarForm();" type="button" value="Editar">
+</div>
+
+<div id="form-in-search" class="content-form-proveedor">
+    <h1>Editar Proveedor</h1>
+
+    {% for msg in get_flashed_messages() %}
+    <div align="center">
+        {{ msg }}
+    </div>
+    {% endfor %}
+    <div class="formulario-wrapper">
+        <div class="proveedores-form">
+            <form id="form-proveedores" action="/editar" method="POST">
+                <p>
+                    <label>Código: </label>
+                    <input type="text" name="" value="{{row2[0]}}" disabled>
+                </p>
+
+                <p>
+                    <label>Nombre: </label>
+                    <input type="text" name="name2" value="{{row2[1]}}">
+                </p>
+
+                <p>
+                    <label>Razon social: </label>
+                    <input type="text" name="razonsocial2" value="{{row2[2]}}">
+                </p>
+
+                <p>
+                    <label>Domicilio: </label>
+                    <input type="text" name="domicilio2" value="{{row2[3]}}">
+                </p>
+
+                <p>
+                    <label>Codigo Postal: </label>
+                    <input type="text" name="postal2" value="{{row2[4]}}">
+                </p>
+
+                <p>
+                    <label>Localidad: </label>
+                    <input type="text" name="localidad2" value="{{row2[5]}}">
+                </p>
+
+                <p>
+                    <label>Provincia: </label>
+                    <input type="text" name="provincia2" value="{{row2[6]}}">
+                </p>
+
+                <p>
+                    <label>País: </label>
+                    <input type="text" name="pais2" value="{{row2[7]}}">
+                </p>
+
+                <p>
+                    <label>Teléfono: </label>
+                    <input type="tel" name="tlf2" value="{{row2[8]}}">
+                </p>
+
+                <p>
+                    <label>Email: </label>
+                    <input type="email" name="correo2" value="{{row2[9]}}">
+                </p>
+
+                <p>
+                    <label>Web: </label>
+                    <input type="text" name="web2" value="{{row2[10]}}">
+                </p>
+
+                <p>
+                    <label>RUT: </label>
+                    <input type="text" name="rut2" value="{{row2[11]}}">
+                </p>
+
+                <p class="block">
+                    <label>Observaciones: </label><Textarea></Textarea>
+                </p>
+                <p class="block">
+                    <!-- <input class="btn" type="submit" name = "submit_button" value="Enviar" onclick="asignar_valor();"/> -->
+                    <button class="btn" type="submit" name="submit_button" value="Guardar">Guardar cambios</button>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function mostrarForm() {
+        document.getElementById("form-in-search").style.display = "block";
+    }
+</script>
+
+{% endblock %}

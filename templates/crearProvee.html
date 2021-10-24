@@ -1,0 +1,93 @@
+{% extends "servicios.html" %}
+
+{% block title %} Crear Proveedor {% endblock %}
+
+{% block contentimg %}
+
+
+
+<div class="content-form-proveedor">
+    <h1>Crear Proveedor</h1>
+
+
+    <div class="formulario-wrapper">
+        <div class="proveedores-form">
+            <form id="limpiarform" action="/crear/proveedor" method="POST">
+                {{ csrf_token }}
+
+                <p>
+                    <label>Nombre: </label>
+                    <input type="text" name="name">
+                </p>
+                
+                <p>
+                    <label>Razon social: </label>
+                    <input type="text" name="razonsocial">
+                </p>
+
+                <p>
+                    <label>Domicilio: </label>
+                    <input type="text" name="domicilio">
+                </p>
+
+                <p>
+                    <label>Codigo Postal: </label>
+                    <input type="text" name="postal">
+                </p>
+
+                <p>
+                    <label>Localidad: </label>
+                    <input type="text" name="localidad">
+                </p>
+
+                <p>
+                    <label>Provincia: </label>
+                    <input type="text" name="provincia">
+                </p>
+
+                <p>
+                    <label>País: </label>
+                    <input type="text" name="pais">
+                </p>
+
+                <p>
+                    <label>Teléfono: </label>
+                    <input type="tel" name="tlf">
+                </p>
+
+                <p>
+                    <label>Email: </label>
+                    <input type="email" name="correo">
+                </p>
+
+                <p>
+                    <label>Web: </label>
+                    <input type="text" name="web">
+                </p>
+
+                <p>
+                    <label>RUT: </label>
+                    <input type="text" name="rut">
+                </p>
+
+                <p class="block">
+                    <label>Observaciones: </label><Textarea></Textarea>
+                </p>
+                <p class="block">
+                <input class="btn" type="submit" name="submit_button" value="Guardar"/>
+                </p>
+
+                {% for msg in get_flashed_messages() %}
+                    <div align="center">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("limpiarform").reset();
+</script>
+
+{% endblock %}
