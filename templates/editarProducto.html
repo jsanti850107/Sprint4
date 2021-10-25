@@ -1,0 +1,140 @@
+{% extends "servicios.html" %}
+{% block title %}Editar producto{% endblock %}
+{% block contentimg %}
+<br><br><br>
+<div>
+    <form action="/editar/producto" method="POST" class="a">
+        <div>
+            <tr>
+                <td><label for="buscar"> Buscar: </label></td>
+                <td><input type="search" name="busqueda" id=""></td>
+            </tr>
+        </div>
+    </form>
+</div>
+{% if resultado != "" %}
+<table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd  class="a">
+    <thead>
+        <tr>
+            <th>Id_producto</th>
+            <th>Id_linea</th>
+            <th>Id_proveedor</th>
+            <th>id_calificacion</th>
+            <th>Lote</th>
+            <th>Codigo</th>
+            <th>Descripcion</th>
+            <th>Cantidad en bodega</th>
+            <th>serial_producto</th>
+            <th>Fecha Lote</th>
+            <th>Nombre</th>
+            <th>Cantidad requerida</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for i in range (long) %}
+            <td>
+                {{row[i]}}
+            </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
+<!-- <div>
+<tr><td><input type="submit" value="Guardar"></td></tr>
+</div> -->
+
+</table>
+
+<form class="formulario" id="formulario" name="formulario" action="/editar/p" method="POST">
+    <div class="fil">
+        <h1>Editar Producto</h1>
+
+        <div class="b"><br>
+            <hr><br>
+        </div>
+        <!-- id pud y id linea -->
+    </div>
+    <div class="fil">
+        <label>Id Prod:</label>
+        <input type="number" name="numid" id="numid" value={{row[0]}}>
+    </div>
+
+    <div class="fil">
+        <label>Id linea:</label>
+        <input type="number" name="lineaid" id="lineaid" value={{row[1]}}>
+    </div>
+    <!-- id provedor y id calificacion -->
+    <div class="fil">
+        <label>proveedor:</label>
+        <input type="text" name="prov" id="prov" value={{row[2]}}>
+    </div>
+    <div class="fil">
+        <label>Id Calificacion:</label>
+        <input type="number" name="calinum" id="calinum" min="1" max="5" value={{row[3]}}>
+    </div>
+
+    <!-- lote y codigo -->
+    <div class="fil">
+        <label>Lote:</label>
+        <input type="number" name="lote" id="lote" min="1" value={{row[4]}}>
+    </div>
+    <div class="fil">
+        <label>Referencia:</label>
+        <input type="number" name="ref" id="ref" value={{row[5]}}>
+    </div>
+    <!-- descripcion de prod ynombre-->
+
+    <div class="fil">
+        <label>Descripcion:</label>
+        <textarea name="destxt" id="destxt" value={{row[7]}}
+            placeholder="Desea cambiar la descripcion escriba aqui"></textarea>
+    </div>
+    
+    <div class="fil">
+        <label>Cantidad en bodega:</label>
+        <input type="number" name="num1" id="num1" required min="1" value={{row[11]}}>
+    </div>
+    <!-- serial prod y fecha lote -->
+    <div class="fil">
+        <label>Serial del producto:</label>
+        <input type="number" name="serpod" id="serprod" min="1" value={{row[8]}}>
+    </div>
+    <div class="fil">
+        <label>Fecha Lote:</label>
+        <input type="date" name="fechlot" id="fechlot" min="1" value={{row[9]}}>
+    </div>
+    <div class="fil">
+        <label>Nombre:</label>
+        <input type="text" name="nomtxt" id="nomtxt" value={{row[6]}}>
+    </div>
+
+    <!--  stock  y Cant-REQUERIDA -->
+    <div class="fil">
+        <label> Min:</label>
+        <input type="number" name="num2" id="num2" min="1" value={{row[10]}}>
+    </div>
+    <!-- PRECIO-->
+    <div class="fil">
+        <label>precio del prod:</label>
+        <input type="number" name="precio" id="precio" value={{row[12]}}>
+    </div>
+    <div class="b"><br>
+        <hr><br>
+    </div>
+        <!-- botones -->
+        <div class="fil">
+            <input type="submit" id="btnagr" name="btnagr" value=" Editar">
+            <a href="/servicios" id="brncan">Cancelar </a>
+        </div>
+        <div class="b"><br>
+            <hr><br>
+        </div>
+    </div>
+</form>
+{% endif %}
+
+
+
+{% endblock %}

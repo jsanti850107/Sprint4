@@ -607,5 +607,135 @@ def list_proveedores():
     else:
         return redirect("/ingreso")
 
+#/////////////////////////////////////////Agregar Producto//////////////////////////////////////////////////////
+@app.route("/crear/producto",methods=["GET","POST"])
+def crearproducrtos():
+    global nom
+    if 'usuario' in session:
+        if request.method=="GET":
+            return render("agregarProducto.html",nom=nom,rol=rol)
+        else:
+            with sqlite3.connect(rutadb) as con:    
+                cur=con.cursor()
+                id_producto=request.form["numid"]#id_producto
+                id_linea=request.form["lineaid"]#id_linea
+                proveedor= request.form["prov"]#id_proveedor
+                calificacion= request.form["calinum"]#id_calificacion
+                lote= request.form["lote"]#lote
+                referencia=request.form["ref"]#codigo
+                nombre=request.form["nomtxt"]#nombre
+                descrp=request.form["destxt"]#descrp
+                serialprod=request.form["serpod"]#serial_prod
+                fechaLote=request.form["fechlot"]#fecha_lote
+                cantRequerida=request.form["num2"]#cant_requerida
+                cantBodega=request.form["num1"]#stock
+                precioProd=request.form["precio"]#precio_producto
+                cur.execute("INSERT INTO productos ( id_producto, id_linea, id_proveedor, id_calificacion, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote, nombre,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",[id_producto,id_linea,proveedor,calificacion,lote,referencia,nombre,descrp,serialprod,fechaLote,cantRequerida,cantBodega,precioProd])
+                con.commit()
+                return render("agregarProducto.html",nom=nom,rol=rol)    
+    else:
+        return redirect("/ingreso")
+#////////////////////Buscar Producto/////////////////////////////
+@app.route("/buscar/producto", methods = ["GET","POST"])
+def buscarp():
+    global nom
+    rows=[]
+    long=0
+    if 'usuario' in session:
+        if request.method=="POST":
+            with sqlite3.connect(rutadb) as con:
+                referencia=request.form["bp"]#codigo
+                if referencia!="":
+                    cur=con.cursor()
+                    #sentencia para validar usuario
+                    cur.execute("SELECT * FROM productos WHERE codigo=?",[referencia])
+                    rows= cur.fetchone()
+                    long=len(rows)
+                else:
+                    return "encontrar producto"
+        return render("buscarprod.html",nom=nom,rol=rol,rows=rows,long=long,session=session)                
+    else:
+        return redirect("/ingreso")  
+#////////////////////////////////Eliminar Producto/////////////////
+@app.route("/eliminar/producto", methods = ["POST","GET"])
+def eliminarp():
+    if 'usuario' in session:
+        if request.method=="POST":
+            referencia=request.form["eliproduc"]#codigo
+            with sqlite3.connect(rutadb) as con:
+                cur=con.cursor()
+                cur.execute("DELETE FROM productos WHERE codigo=?",[referencia])
+                con.commit()
+        return render ("eliminarprod.html",nom=nom,rol=rol)
+    else:
+        return redirect("/ingreso") 
+
+#/////////////////////////////Visualizar Productos///////////////////////////////////////////////
+@app.route("/visualizar/producto")
+def visualizar_producto():
+    if 'usuario' in session: 
+        with sqlite3.connect(rutadb) as con:
+            cur=con.cursor()
+            cur.execute("SELECT * FROM productos")
+            con.commit()
+            productos=cur.fetchall()
+            long=len(productos)
+    
+        return render("visualizar.html",productos=productos, nom=nom, rol=rol,long=long)
+    else:
+        return redirect("/ingreso")
+#/////////////////////////////Editar Producto///////////////////////////////////////////////
+row=[]
+@app.route("/editar/producto", methods = ["GET","POST"])
+def edi_prod():
+    global nom
+    referencia=""
+    row=[]
+    long=0
+    if nom !="":
+        if request.method=="POST":
+            with sqlite3.connect(rutadb) as con:
+                referencia= request.form["busqueda"]#codigo
+                if referencia!="":
+                    with sqlite3.connect(rutadb) as con:
+                        cur=con.cursor()
+                        #sentencia para validar usuario
+                        cur.execute("SELECT * FROM productos WHERE codigo=?",[referencia])
+                        row= cur.fetchone()
+                        long=len(row) 
+                    
+                else:
+                    return "busqueda vacia"
+        return render("editarProducto.html",row = row, nom=nom,rol=rol,long=long,busqueda=referencia)                
+    else:
+        return redirect("/ingreso")
+
+@app.route("/editar/p", methods = ["GET","POST"])
+def editar_p():
+    id_producto=request.form["numid"]#id_producto
+    id_linea=request.form["lineaid"]#id_linea
+    proveedor= request.form["prov"]#id_proveedor
+    calificacion= request.form["calinum"]#id_calificacion
+    lote= request.form["lote"]#lote
+    referencia=request.form["ref"]#codigo
+    nombre=request.form["nomtxt"]#nombre
+    descrp=request.form["destxt"]#descrp
+    serialprod=request.form["serpod"]#serial_prod
+    fechaLote=request.form["fechlot"]#fecha_lote
+    cantRequerida=request.form["num2"]#cant_requerida
+    cantBodega=request.form["num1"]#stock
+    precioProd=request.form["precio"]#precio_producto
+    if nom !="":
+        if request.method == "POST":
+            with sqlite3.connect(rutadb) as con:
+                cur=con.cursor()
+                cur.execute("UPDATE productos SET id_producto=?, id_linea=?, id_proveedor=?, id_calificacion=?, lote=?, descrip_producto=?, stock=?, serial_producto=?, fecha_lote=?, nombre=?, cant_requerida=? ,precio=? WHERE codigo=?",[id_producto,id_linea,proveedor,calificacion,lote,nombre,descrp,serialprod,fechaLote,cantRequerida,cantBodega,precioProd,referencia])
+                return"Editado con Exito"
+        return render("editarProducto.html",nom=nom,rol=rol,row=row)
+    else:
+        return redirect("/ingreso")  
+
+ 
 if __name__=="__main__":
     app.run(debug=True)
+ 

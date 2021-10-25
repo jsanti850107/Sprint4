@@ -1,0 +1,61 @@
+
+    {% extends "servicios.html" %}
+{% block title %}Visualizar Producto{% endblock %}
+{% block contentimg %}
+    <br><br><br>
+    {% if rol == "SuperAdmin" or rol == "Admin" %}
+        <br>
+        <br>
+        <br>
+        <div>
+            <table  id="tabla" class="a">
+                <thead>
+                    <tr>
+                        <th>id_producto</th>
+                        <th>id_linea</th>
+                        <th>id_proveedor</th>
+                        <th>id_calificacion</th>
+                        <th>Lote</th>
+                        <th>Codigo</th>
+                        <th>Descripcion</th>
+                        <th>Stock</th>
+                        <th>Serial_Producto</th>
+                        <th>Fecha Lote</th>
+                        <th>Nombre</th>
+                        <th>Cantidad_Requerida</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+
+                    {% for i in range (long) %}
+                    <tr>
+                        <td>{{productos[i][0]}}</td>
+                        <td>{{productos[i][1]}}</td>
+                        <td>{{productos[i][2]}}</td>
+                        <td>{{productos[i][3]}}</td>
+                        <td>{{productos[i][4]}}</td>
+                        <td>{{productos[i][5]}}</td>
+                        <td>{{productos[i][6]}}</td>
+                        <td>{{productos[i][7]}}</td>
+                        <td>{{productos[i][8]}}</td>
+                        <td>{{productos[i][9]}}</td>
+                        <td>{{productos[i][10]}}</td>
+                        <td>{{productos[i][11]}}</td>
+                        <td>{{productos[i][12]}}</td>
+                    </tr>
+                            
+                    {% endfor %}
+
+                
+                    
+                </tbody>
+            </table>
+        </div>
+
+
+    {% endif %}
+{% endblock %}
+
+    
