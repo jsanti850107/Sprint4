@@ -735,7 +735,44 @@ def editar_p():
     else:
         return redirect("/ingreso")  
 
- 
+#//////////////////Listado Productos requeridos
+@app.route("/reporte/list_prod_req", methods=["GET"])
+def productos_requeridos():
+    if ('usuario' in session):
+        with sqlite3.connect(rutadb) as con:
+            con.row_factory = sqlite3.Row
+            cur=con.cursor()
+            #sentencia para validar usuario
+            cur.execute("SELECT productos.*, linea.nom_linea FROM productos inner join linea on linea.id_linea=productos.id_linea")
+            rows= cur.fetchall()
+            long=len(rows)   
+        return render("lprequeridos.html",rows = rows, nom=nom,rol=rol,long=long)                
+    else:
+        return redirect("/ingreso")
+
+@app.route("/reporte/b_proveexprod", methods=["GET","POST"])
+def b_proveexprod():
+    global nom
+    rows=[]
+    long=0
+    if 'usuario' in session:
+        if request.method=="POST":
+            with sqlite3.connect(rutadb) as con:
+                con.row_factory = sqlite3.Row
+                referencia=request.form["bp"]#codigo
+                if referencia!="":
+                    cur=con.cursor()
+                    #sentencia para validar usuario
+                    cur.execute("select proveedor.*, productos.id_linea,linea.nom_linea from proveedor inner join productos on productos.id_proveedor=proveedor.id_proveedor inner join linea on linea.id_linea=productos.id_linea where linea.id_linea=?",[referencia])
+                    rows= cur.fetchone()
+                    long=len(rows)
+                else:
+                    return "encontrar producto"
+        return render("buscarprovxprod.html",nom=nom,rol=rol,rows=rows,long=long,session=session)                
+    else:
+        return redirect("/ingreso")
+
+
 if __name__=="__main__":
     app.run(debug=True)
  

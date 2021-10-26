@@ -1,0 +1,47 @@
+{% extends "servicios.html" %}
+{% block title %}busqueda de proveedor por producto especifico{% endblock %}
+{% block contentimg %}
+<br><br><br>
+HOLA
+<div align="center">
+    <form action="" method="POST"  class="a" id="tabla">
+            <div align="center">
+                
+                <tr>
+                    <td><label for="buscar"> Buscar: </label></td>
+                    <td><input type="search" name="bp" id=""></td>
+                </tr>
+            </div>
+    </form>  
+    <br>  
+    {% if resultado != "" %}
+        <table  cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd  class="a">
+            <thead>
+                <tr>
+                <th>Id_proveedor</th>
+                <th>Nombre proveedor</th>
+                <th>Id_linea</th>
+                <th>Id_Producto</th>           
+                </tr>
+            </thead> 
+            <tbody>
+                <tr>
+                    <td>
+                        {{rows['id_proveedor']}}
+                    </td>
+                    <td>
+                        {{rows['nom_proveedor']}}
+                    </td>
+                    <td>
+                        {{rows['id_linea']}}
+                    </td>
+                    <td>
+                        {{rows['nom_linea']}}
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    {% endif %}    
+</div>
+{% endblock %}

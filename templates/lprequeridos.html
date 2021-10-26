@@ -1,0 +1,21 @@
+{% extends "servicios.html" %}
+{% block title %}Visualizar usuario{% endblock %}
+{% block contentimg %}
+<br><br>
+<table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
+    <h1 align="center">LISTADO DE PRODUCTOS CON CANTIDAD MENOR A LA MINIMA REQUERIDA</h1>
+    <thead>         
+        <tr>
+            <th>Id</th><th>Codigo linea</th><th>Productos</th><th>Stock</th><th>Cantidad minima requerida</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(long) %}
+            {% if rows[i]['stock']<rows[i]['cant_requerida'] %}
+                <tr><td>{{rows[i]['id_producto']}}</td><td>{{rows[i]['id_linea']}}</td><td>{{rows[i]['nom_linea']}}</td><td>{{rows[i]['stock']}}</td><td>{{rows[i]['cant_requerida']}}</td></tr>
+            {% endif %}
+        {% endfor %}
+        
+    </tbody>
+</table>
+{% endblock %}
