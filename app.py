@@ -623,14 +623,14 @@ def crearproducrtos():
                 calificacion= request.form["calinum"]#id_calificacion
                 lote= request.form["lote"]#lote
                 referencia=request.form["ref"]#codigo
-                nombre=request.form["nomtxt"]#nombre
+                #nombre=request.form["nomtxt"]#nombre
                 descrp=request.form["destxt"]#descrp
                 serialprod=request.form["serpod"]#serial_prod
                 fechaLote=request.form["fechlot"]#fecha_lote
                 cantRequerida=request.form["num2"]#cant_requerida
                 cantBodega=request.form["num1"]#stock
                 precioProd=request.form["precio"]#precio_producto
-                cur.execute("INSERT INTO productos ( id_producto, id_linea, id_proveedor, id_calificacion, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote, nombre,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",[id_producto,id_linea,proveedor,calificacion,lote,referencia,nombre,descrp,serialprod,fechaLote,cantRequerida,cantBodega,precioProd])
+                cur.execute("INSERT INTO productos ( id_producto, id_linea, id_proveedor, id_calificacion, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",[id_producto,id_linea,proveedor,calificacion,lote,referencia,descrp,serialprod,fechaLote,cantRequerida,cantBodega,precioProd])
                 con.commit()
                 return render("agregarProducto.html",nom=nom,rol=rol)    
     else:
