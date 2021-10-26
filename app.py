@@ -764,7 +764,7 @@ def b_proveexprod():
                     cur=con.cursor()
                     #sentencia para validar usuario
                     cur.execute("select proveedor.*, productos.id_linea,linea.nom_linea from proveedor inner join productos on productos.id_proveedor=proveedor.id_proveedor inner join linea on linea.id_linea=productos.id_linea where linea.id_linea=?",[referencia])
-                    rows= cur.fetchone()
+                    rows= cur.fetchall()
                     long=len(rows)
                 else:
                     return "encontrar producto"

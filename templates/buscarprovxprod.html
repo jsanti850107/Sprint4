@@ -24,20 +24,22 @@
                 </tr>
             </thead> 
             <tbody>
+                {% for i in range(long) %}
                 <tr>
                     <td>
-                        {{rows['id_proveedor']}}
+                        {{rows[i]['id_proveedor']}}
                     </td>
                     <td>
-                        {{rows['nom_proveedor']}}
+                        {{rows[i]['nom_proveedor']}}
                     </td>
                     <td>
-                        {{rows['id_linea']}}
+                        {{rows[i]['id_linea']}}
                     </td>
                     <td>
-                        {{rows['nom_linea']}}
+                        {{rows[i]['nom_linea']}}
                     </td>
                 </tr>
+                {% endfor %}
             </tbody>
 
         </table>
