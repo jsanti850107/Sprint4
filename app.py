@@ -607,20 +607,33 @@ def list_proveedores():
     else:
         return redirect("/ingreso")
 
+rowl=rowp=[]
+longl=longp=0
+
 #/////////////////////////////////////////Agregar Producto//////////////////////////////////////////////////////
 @app.route("/crear/producto",methods=["GET","POST"])
 def crearproducrtos():
-    global nom
+    global nom,rowl,rowp,longl,longp
     if 'usuario' in session:
         if request.method=="GET":
-            return render("agregarProducto.html",nom=nom,rol=rol)
+            with sqlite3.connect(rutadb) as con: 
+                con.row_factory=sqlite3.Row #vista de diccionario
+                cur=con.cursor()
+                cur.execute("select id_linea, nom_linea from linea")
+                rowl=cur.fetchall()
+                longl=len(rowl)
+                cur.execute("select id_proveedor, nom_proveedor from proveedor")
+                rowp=cur.fetchall()
+                longp=len(rowp)
+
+            return render("agregarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)
         else:
             with sqlite3.connect(rutadb) as con:    
                 cur=con.cursor()
-                id_producto=request.form["numid"]#id_producto
-                id_linea=request.form["lineaid"]#id_linea
-                proveedor= request.form["prov"]#id_proveedor
-                calificacion= request.form["calinum"]#id_calificacion
+                #id_producto=request.form["numid"]#id_producto
+                id_linea=request.values["selectlinea"]#id_linea
+                proveedor= request.values["selectprov"]#id_proveedor
+                # #calificacion= request.form["calinum"]#id_calificacion
                 lote= request.form["lote"]#lote
                 referencia=request.form["ref"]#codigo
                 #nombre=request.form["nomtxt"]#nombre
@@ -630,9 +643,9 @@ def crearproducrtos():
                 cantRequerida=request.form["num2"]#cant_requerida
                 cantBodega=request.form["num1"]#stock
                 precioProd=request.form["precio"]#precio_producto
-                cur.execute("INSERT INTO productos ( id_producto, id_linea, id_proveedor, id_calificacion, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",[id_producto,id_linea,proveedor,calificacion,lote,referencia,descrp,serialprod,fechaLote,cantRequerida,cantBodega,precioProd])
+                cur.execute("INSERT INTO productos ( id_linea, id_proveedor, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?)",[id_linea,proveedor,lote,referencia,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd])
                 con.commit()
-                return render("agregarProducto.html",nom=nom,rol=rol)    
+                return render("agregarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)    
     else:
         return redirect("/ingreso")
 #////////////////////Buscar Producto/////////////////////////////

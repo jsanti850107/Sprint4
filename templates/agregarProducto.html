@@ -11,22 +11,25 @@
             </div>
             <!-- id pud y id linea -->
             </div>
-            
-
             <div class="fil">
-                <label>Id linea:</label>
-                <input type="checkbox" name="lineaid" id="lineaid">  
+                <label>Marca: </label>
+                <select name="selectlinea" id="">
+                    <option value="value0" selected>--Escoja una marca--</option>
+                    {% for i in range(longl) %}
+                        <option value="{{rowl[i]['id_linea']}}">{{rowl[i]['nom_linea']}}</option>
+                    {% endfor %}
+                </select>    
             </div>
             <!-- id provedor y id calificacion -->
             <div class="fil">
-                <label>proveedor:</label>
-                <input type="text" name="prov" id="prov">
+                <label>Proveedor: </label>
+                <select name="selectprov" id="">
+                    <option value="value0" selected>--Escoja un Proveedor--</option>
+                    {% for i in range(longp) %}
+                        <option value="{{rowp[i]['id_proveedor']}}">{{rowp[i]['nom_proveedor']}}</option>
+                    {% endfor %}
+                </select>    
             </div>
-            <div class="fil">
-                <label>Id Calificacion:</label>
-                <input type="number" name="calinum" id="calinum" min="1" max="5">
-            </div>
-        
             <!-- lote y codigo -->
             <div class="fil">
                 <label>Lote:</label>
