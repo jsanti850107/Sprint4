@@ -19,7 +19,6 @@
             <th>Id_producto</th>
             <th>Id_linea</th>
             <th>Id_proveedor</th>
-            <th>id_calificacion</th>
             <th>Lote</th>
             <th>Codigo</th>
             <th>Descripcion</th>
@@ -56,64 +55,76 @@
         <!-- id pud y id linea -->
     </div>
     <div class="fil">
-        <label>Id Prod:</label>
-        <input type="number" name="numid" id="numid" value={{row[0]}}>
+        <label>Referencia:</label>
+        <input type="number" name="ref" id="ref" value={{row[4]}}>
     </div>
 
     <div class="fil">
-        <label>Id linea:</label>
-        <input type="number" name="lineaid" id="lineaid" value={{row[1]}}>
+        <label>Marca: </label>
+        <select name="selectlinea" id="">
+
+            {% for i in range(longl) %}
+            {% if rowl[i]['id_proveedor']==row[2] %}
+            <option value="{{rowl[i]['id_linea']}}" selected>{{rowl[i]['nom_linea']}}</option>
+
+            {% else %}
+                <option value="{{rowl[i]['id_linea']}}">{{rowl[i]['nom_linea']}}</option>
+                {% endif %}
+                {% endfor %}
+
+        </select>    
     </div>
     <!-- id provedor y id calificacion -->
     <div class="fil">
-        <label>proveedor:</label>
-        <input type="text" name="prov" id="prov" value={{row[2]}}>
-    </div>
-    <div class="fil">
-        <label>Id Calificacion:</label>
-        <input type="number" name="calinum" id="calinum" min="1" max="5" value={{row[3]}}>
+        <label>Proveedor: </label>
+        <select name="selectprov" id="" >
+            {% for i in range(longp) %}
+            {% if rowp[i]['id_proveedor']==row[2] %}
+                <option value="{{rowp[i]['id_proveedor']}}" selected>{{rowp[i]['nom_proveedor']}} </option>
+            {% else %}
+                <option value="{{rowp[i]['id_proveedor']}}">{{rowp[i]['nom_proveedor']}} </option>
+            {% endif %}
+                {% endfor %}
+        </select>    
     </div>
 
     <!-- lote y codigo -->
     <div class="fil">
         <label>Lote:</label>
-        <input type="number" name="lote" id="lote" min="1" value={{row[4]}}>
+        <input type="number" name="lote" id="lote" min="1" value={{row[3]}}>
     </div>
-    <div class="fil">
-        <label>Referencia:</label>
-        <input type="number" name="ref" id="ref" value={{row[5]}}>
-    </div>
+  
     <!-- descripcion de prod ynombre-->
 
     <div class="fil">
         <label>Descripcion:</label>
-        <textarea name="destxt" id="destxt" value={{row[7]}}
+        <textarea name="destxt" id="destxt" value={{row[5]}}
             placeholder="Desea cambiar la descripcion escriba aqui"></textarea>
     </div>
     
     <div class="fil">
         <label>Cantidad en bodega:</label>
-        <input type="number" name="num1" id="num1" required min="1" value={{row[11]}}>
+        <input type="number" name="num1" id="num1" required min="1" value={{row[6]}}>
     </div>
     <!-- serial prod y fecha lote -->
     <div class="fil">
         <label>Serial del producto:</label>
-        <input type="number" name="serpod" id="serprod" min="1" value={{row[8]}}>
+        <input type="number" name="serpod" id="serprod" min="1" value={{row[7]}}>
     </div>
     <div class="fil">
         <label>Fecha Lote:</label>
-        <input type="date" name="fechlot" id="fechlot" min="1" value={{row[9]}}>
+        <input type="date" name="fechlot" id="fechlot" min="1" value={{row[8]}}>
     </div>
 
     <!--  stock  y Cant-REQUERIDA -->
     <div class="fil">
         <label> Min:</label>
-        <input type="number" name="num2" id="num2" min="1" value={{row[10]}}>
+        <input type="number" name="num2" id="num2" min="1" value={{row[9]}}>
     </div>
     <!-- PRECIO-->
     <div class="fil">
         <label>precio del prod:</label>
-        <input type="number" name="precio" id="precio" value={{row[12]}}>
+        <input type="number" name="precio" id="precio" value={{row[10]}}>
     </div>
     <div class="b"><br>
         <hr><br>

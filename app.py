@@ -701,7 +701,7 @@ def visualizar_producto():
 row=[]
 @app.route("/editar/producto", methods = ["GET","POST"])
 def edi_prod():
-    global nom
+    global rowl,nom,rowp,longl,longp
     referencia=""
     row=[]
     long=0
@@ -719,30 +719,42 @@ def edi_prod():
                     
                 else:
                     return "busqueda vacia"
-        return render("editarProducto.html",row = row, nom=nom,rol=rol,long=long,busqueda=referencia)                
+        else:
+            with sqlite3.connect(rutadb) as con: 
+                con.row_factory=sqlite3.Row #vista de diccionario
+                cur=con.cursor()
+                cur.execute("select id_linea, nom_linea from linea")
+                rowl=cur.fetchall()
+                longl=len(rowl)
+                cur.execute("select id_proveedor, nom_proveedor from proveedor")
+                rowp=cur.fetchall()
+                longp=len(rowp)
+            return render("editarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp,long=long,row=row)
+        return render("editarProducto.html",row = row, nom=nom,rol=rol,long=long,busqueda=referencia,rowl=rowl,rowp=rowp,longl=longl,longp=longp)                
     else:
         return redirect("/ingreso")
 
 @app.route("/editar/p", methods = ["GET","POST"])
 def editar_p():
-    id_producto=request.form["numid"]#id_producto
-    id_linea=request.form["lineaid"]#id_linea
-    proveedor= request.form["prov"]#id_proveedor
-    calificacion= request.form["calinum"]#id_calificacion
+     #id_producto=request.form["numid"]#id_producto
+    id_linea=request.values["selectlinea"]#id_linea
+    proveedor= request.values["selectprov"]#id_proveedor
+    # #calificacion= request.form["calinum"]#id_calificacion
     lote= request.form["lote"]#lote
     referencia=request.form["ref"]#codigo
-    nombre=request.form["nomtxt"]#nombre
+    #nombre=request.form["nomtxt"]#nombre
     descrp=request.form["destxt"]#descrp
     serialprod=request.form["serpod"]#serial_prod
     fechaLote=request.form["fechlot"]#fecha_lote
     cantRequerida=request.form["num2"]#cant_requerida
     cantBodega=request.form["num1"]#stock
     precioProd=request.form["precio"]#precio_producto
+    
     if nom !="":
         if request.method == "POST":
             with sqlite3.connect(rutadb) as con:
                 cur=con.cursor()
-                cur.execute("UPDATE productos SET id_producto=?, id_linea=?, id_proveedor=?, id_calificacion=?, lote=?, descrip_producto=?, stock=?, serial_producto=?, fecha_lote=?, nombre=?, cant_requerida=? ,precio=? WHERE codigo=?",[id_producto,id_linea,proveedor,calificacion,lote,nombre,descrp,serialprod,fechaLote,cantRequerida,cantBodega,precioProd,referencia])
+                cur.execute("UPDATE productos SET id_linea=?,id_proveedor=?, lote=?,descrip_producto=?,stock=?,serial_producto=?,fecha_lote=?,cant_requerida=?,precio=? WHERE codigo=?",[id_linea,proveedor,lote,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd,referencia])
                 return"Editado con Exito"
         return render("editarProducto.html",nom=nom,rol=rol,row=row)
     else:

@@ -1,0 +1,36 @@
+{% extends "servicios.html" %}
+{% block title %}Eliminar producto{% endblock %}
+{% block contentimg %}
+{% if rol == "SuperAdmin" or rol == "Admin" %}
+    <form class="formulario" id="formulario" name="formulario" method="POST" action="/eliminar/producto">
+        <div class="fil">
+            <h1> Eliminar producto</h1>
+        </div>
+
+        <script src="../static/js/agregarProducto.js"></script>
+
+        <div class="b"><br>
+        <hr><br>
+    </div> 
+
+    <div class="fil">
+        <label>Referencia del producto: </label>
+        <input type="search" name="eliproduc" id="eliminar">
+    </div>
+
+    <div class="b"><br>
+     <hr><br>
+    </div>
+    <!-- botones -->
+    <div class="fil">
+        <input type="submit" id="btneliminar" name="btneliminar"  value="eliminar">
+        <a href="#" id="brncan">Cancelar </a>
+    </div>
+    </form> 
+
+        
+       
+   
+{% endif %}
+{% endblock %}
+</body>
