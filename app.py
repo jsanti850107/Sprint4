@@ -4,7 +4,7 @@ import os
 from werkzeug.utils import escape
 
 from wtforms import meta
-from forms.formularios import Buscar, Calificar, Chpass, Editar, Registro,Login,Productos, Editar
+from forms.formularios import Buscar, Calificar, Chpass, CrudMarcas, DMarcas, EMarcas, Editar, Marcas, Registro,Login,Productos, Editar
 import hashlib
 
 app=Flask(__name__)
@@ -633,10 +633,10 @@ def crearproducrtos():
             with sqlite3.connect(rutadb) as con: 
                 con.row_factory=sqlite3.Row #vista de diccionario
                 cur=con.cursor()
-                cur.execute("select id_linea, nom_linea from linea")
+                cur.execute("select id_linea, nom_linea from linea order by nom_linea")
                 rowl=cur.fetchall()
                 longl=len(rowl)
-                cur.execute("select id_proveedor, nom_proveedor from proveedor")
+                cur.execute("select id_proveedor, nom_proveedor from proveedor order by nom_proveedor")
                 rowp=cur.fetchall()
                 longp=len(rowp)
 
@@ -753,10 +753,10 @@ def edi_prod():
             with sqlite3.connect(rutadb) as con: 
                 con.row_factory=sqlite3.Row #vista de diccionario
                 cur=con.cursor()
-                cur.execute("select id_linea, nom_linea from linea")
+                cur.execute("select id_linea, nom_linea from linea order by nom_linea")
                 rowl=cur.fetchall()
                 longl=len(rowl)
-                cur.execute("select id_proveedor, nom_proveedor from proveedor")
+                cur.execute("select id_proveedor, nom_proveedor from proveedor order by nom_proveedor")
                 rowp=cur.fetchall()
                 longp=len(rowp)
             return render("editarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp,long=long,row=row)
@@ -824,6 +824,140 @@ def b_proveexprod():
                 else:
                     return "encontrar producto"
         return render("buscarprovxprod.html",nom=nom,rol=rol,rows=rows,long=long,session=session)                
+    else:
+        return redirect("/ingreso")
+
+#////////////////////////lineas/////////////////////
+
+@app.route("/marcas", methods=["GET"])
+def gmarcas():
+    if 'usuario' in session:
+        frm=CrudMarcas()
+        with sqlite3.connect(rutadb) as con:
+            con.row_factory = sqlite3.Row
+            cur=con.cursor()
+            #sentencia para validar usuario
+            cur.execute("select * from linea")
+            rows= cur.fetchall()
+            long=len(rows)   
+        return render("marcas.html",rows=rows, long=long,frm=frm)    
+    else:
+        return redirect("/ingreso")
+
+@app.route("/marca/crear", methods=["GET","POST"])
+def cmarcas():
+    if 'usuario' in session:
+        frm=Marcas()
+        if frm.validate_on_submit():
+            nombre=frm.nom_linea.data
+            descripcion=frm.desc_linea.data
+            with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+                cur=con.cursor()
+                cur.execute("Select * from linea where nom_linea=?",[nombre])
+                row=cur.fetchone()
+                if row:
+                    frm.nom_linea.data=""
+                    flash("La marca ingresarda ya se encuentra registrada")
+                else:
+                    #prepara sentencia SQL, preferiblemente no concatenar
+                    cur.execute("INSERT INTO linea(nom_linea,descrip_linea)values(?,?)",(nombre,descripcion))
+                    #se ejecuta la sentencia
+                    con.commit()
+                    flash("Marca creada con éxito")
+        return render("cmarcas.html",frm=frm)    
+    else:
+        return redirect("/ingreso")
+
+sw=0
+
+@app.route("/marca/editar", methods=["GET","POST"])
+def emarcas():
+    if 'usuario' in session:
+        global sw
+        sw=0
+        frm1=EMarcas()
+        with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+                cur=con.cursor()
+                cur.execute("Select * from linea")
+                rows=cur.fetchall()
+                long=len(rows)
+        frm=Marcas()
+        if frm1.validate_on_submit():
+            nombrel=frm1.nom_linea.data
+            with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+                cur=con.cursor()
+                cur.execute("Select * from linea where nom_linea=?",[nombrel])
+                row=cur.fetchone()
+                if row:
+                    frm.nom_linea.data=row[1]
+                    frm.desc_linea.data=row[2]
+                    #frm1.nom_linea.data=""
+                    sw=1
+                else:
+                    flash("La marca no se encuentra en la base de datos")
+                    sw=0
+        return render("emarcas.html",frm=frm,frm1=frm1,rows=rows,long=long,sw=sw)    
+    else:
+        return redirect("/ingreso")
+
+@app.route("/marca/editar_", methods=["GET","POST"])
+def emarcas1():
+    if 'usuario' in session:
+        # global nombrel,sw,descl
+        frm=Marcas()
+        frm1=EMarcas()
+        if frm.validate_on_submit():
+            nombre=escape(frm.nom_linea.data)
+            desc=escape(frm.desc_linea.data)
+            with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+        
+                cur=con.cursor()
+                cur.execute("Select * from linea where nom_linea=?",[nombre])
+                row=cur.fetchone()
+                if row:
+                    frm.nom_linea.data=""
+                    flash("La marca ingresarda ya se encuentra registrada")
+                    sw=1
+                else:
+                    flash("ok")
+                    sw=0
+        return redirect("/marca/editar")
+        #return render("emarcas.html",frm1=frm1,frm=frm,sw=sw)
+    else:
+        return redirect("/ingreso")
+
+
+@app.route("/marca/eliminar", methods=["GET","POST"])
+def dmarcas():
+    if 'usuario' in session:
+        frm=DMarcas()
+        with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+                cur=con.cursor()
+                cur.execute("Select * from linea")
+                rows=cur.fetchall()
+                long=len(rows)
+        if frm.validate_on_submit():
+            nombre=frm.nom_linea.data
+            with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+                cur=con.cursor()
+                cur.execute("Select * from linea where nom_linea=?",[nombre])
+                row=cur.fetchone()
+                if row:
+                    frm.nom_linea.data=""
+                    cur.execute("delete from linea where nom_linea=?",[nombre])
+                    flash("La marca eliminada exitosamente")
+                    return redirect("/marca/eliminar")
+                else:
+                    flash("La marca no se encuentra en la base de datos")
+
+
+        return render("dmarcas.html",frm=frm,rows=rows,long=long)    
     else:
         return redirect("/ingreso")
 

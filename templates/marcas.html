@@ -1,0 +1,29 @@
+{% extends "servicios.html" %}
+{% block title %}Gestion Marcas{% endblock %}
+{% block contentimg %}
+<br><br><br>
+    <h1 align="center">LISTA DE MARCAS {{long}}</h1>
+    <form action="" method="post" onsubmit="return confirmarBorrado()">
+        {{ frm.hidden_tag() }}
+        <table align="center">
+        <tr>
+            <td>{{ frm.enviar }}</td><td>{{ frm.editar }}</td><td>{{ frm.eliminar }}</td>
+        </tr>
+        </table>
+    </form>
+    <br>
+<table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
+    <thead>         
+        <tr>
+            <th>id Marca</th><th>Nombre</th><th>Descripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(long) %}
+        <tr><td>{{rows[i][0]}}</td><td>{{rows[i][1]}}</td><td>{{rows[i][2]}}</td></tr>
+
+    {% endfor %}
+        
+    </tbody>
+</table>
+{% endblock %}

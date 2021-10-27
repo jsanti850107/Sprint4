@@ -1,0 +1,73 @@
+{% extends "servicios.html" %}
+{% block title %}Editar Marca{% endblock %}
+{% block contentimg %}
+<br><br><br>
+<form action="/marca/editar" method="post">
+    {{ frm.hidden_tag() }}
+    <table align="center">
+        <p>
+            <tr>
+                <td>{{ frm1.nom_linea.label }}</td>
+                <td>{{ frm1.nom_linea }}</td>
+            </tr> 
+        </p>
+    </table>
+    <br>
+        {% for msg in get_flashed_messages() %}
+            <div align="center">
+            {{ msg }}
+            </div >
+        {% endfor %}
+    <table align="center">
+    <tr>
+        <td>{{ frm1.buscar }}</td>
+    </tr>
+    </table>
+
+{% if sw==0 %}
+<table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
+    <thead>         
+        <tr>
+            <th>id Marca</th><th>Nombre</th><th>Descripcion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(long) %}
+            <tr><td>{{rows[i][0]}}</td><td>{{rows[i][1]}}</td><td>{{rows[i][2]}}</td></tr>
+
+        {% endfor %}
+        
+    </tbody>
+</table>
+{% endif %}  
+{% if sw==1 %}
+    <table align="center">
+        
+        <p>
+            <tr>
+                <td>{{ frm.nom_linea.label }}</td>
+                <td>{{ frm.nom_linea }}</td>
+            </tr>
+            
+        </p>
+        <p>
+            <tr>
+                <td>{{ frm.desc_linea.label }}</td>
+                <td>{{ frm.desc_linea }}</td>
+            </tr>
+        </p>    
+    </table>
+    <br>
+        {% for msg in get_flashed_messages() %}
+            <div align="center">
+            {{ msg }}
+            </div >
+        {% endfor %}
+    <table align="center">
+    <tr>
+        <td>{{ frm.editar }}</td>
+    </tr>
+    </table>
+</form>
+{% endif %}    
+{% endblock %}
