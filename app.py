@@ -391,7 +391,7 @@ def calificar():
             if calificacion!=None:
                 with sqlite3.connect(rutadb) as con:
                     cur = con.cursor()
-                    cur.execute("INSERT INTO califica_productos(id_linea,calificacion,observaciones)values(?,?,?)",(producto,calificacion,observaciones))
+                    cur.execute("INSERT INTO califica_productos(id_linea,calificacion,descrip_calificacion)values(?,?,?)",(producto,calificacion,observaciones))
                     #se ejecuta la sentencia
                     con.commit()
                 flash("Producto calificado con éxito")
@@ -705,7 +705,7 @@ def edi_prod():
     referencia=""
     row=[]
     long=0
-    if nom !="":
+    if 'usuario' in session:
         if request.method=="POST":
             with sqlite3.connect(rutadb) as con:
                 referencia= request.form["busqueda"]#codigo
@@ -750,7 +750,7 @@ def editar_p():
     cantBodega=request.form["num1"]#stock
     precioProd=request.form["precio"]#precio_producto
     
-    if nom !="":
+    if 'usuario' in session:
         if request.method == "POST":
             with sqlite3.connect(rutadb) as con:
                 cur=con.cursor()
