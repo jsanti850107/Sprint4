@@ -8,6 +8,10 @@
             <tr>
                 <td><label for="buscar"> Buscar: </label></td>
                 <td><input type="search" name="busqueda" id=""></td>
+                {% for msg in get_flashed_messages() %}
+                <div align="center">
+                    {{ msg }}
+                    {% endfor %}
             </tr>
         </div>
     </form>

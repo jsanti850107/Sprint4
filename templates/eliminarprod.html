@@ -29,7 +29,10 @@
     </form> 
 
         
-       
+    {% for msg in get_flashed_messages() %}
+    <div align="center">
+        {{ msg }}
+        {% endfor %}
    
 {% endif %}
 {% endblock %}

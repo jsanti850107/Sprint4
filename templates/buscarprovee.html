@@ -5,11 +5,6 @@
 {% block contentimg %}
     <br>
     <br>
-    {% for msg in get_flashed_messages() %}
-                <div align="center">
-        {{ msg }}
-
-    {% endfor %}
     <br>
     <div id="buscar">
         <form action="/buscar/proveedor", method="POST">
@@ -48,8 +43,14 @@
                     {% endfor %}
                 </tr>
             </tbody>
+            
 
         </table>
+        {% for msg in get_flashed_messages() %}
+        <div align="center">
+            {{ msg }}
+        </div>
+    {% endfor %}
     </div>
 
 {% endblock %}

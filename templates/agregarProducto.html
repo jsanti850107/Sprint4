@@ -78,11 +78,16 @@
             <div class="fil">
                 <input type="submit" id="btnagr" name="btnagr"  value="Agregar">
                 <a href="/servicios" id="brncan">Cancelar </a>
+                {% for msg in get_flashed_messages() %}
+        <div align="center">
+            {{ msg }}
+        {% endfor %}
+        </div>
             </div>
             <div class="b"><br>
                 <hr><br>
             </div>
-        </div>
+            
     </form>    
     
 {% endif %}

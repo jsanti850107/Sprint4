@@ -17,11 +17,11 @@
 </div>
 
 <div id="form-in-search" class="content-form-proveedor">
-    <h1>Editar Proveedor</h1>
-
     {% for msg in get_flashed_messages() %}
     <div align="center">
         {{ msg }}
+    <h1>Editar Proveedor</h1>
+
     </div>
     {% endfor %}
     <div class="formulario-wrapper">
@@ -103,6 +103,7 @@
     function mostrarForm() {
         document.getElementById("form-in-search").style.display = "block";
     }
+
 </script>
 
 {% endblock %}

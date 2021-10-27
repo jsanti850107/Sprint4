@@ -485,6 +485,7 @@ def delproveedor():
                 con.commit()
                 proveedor=cur.fetchall()
                 long=len(proveedor)
+               
             return render("eliminarprovee.html", long=long, nom=nom, rol=rol, proveedor=proveedor)
 
         else:
@@ -494,8 +495,11 @@ def delproveedor():
                 cur = con.cursor()
                 cur.execute("DELETE FROM proveedor WHERE id_proveedor=?",[dato])
                 con.commit()
-                con.close
-            flash("Eliminado con exito")
+                if con.total_changes>0:
+                    con.close
+                    flash("Eliminado con exito")
+                else:
+                    flash("Proveedor no encontrado")
             
             with sqlite3.connect("inventario.db") as con:
                 cur = con.cursor()
@@ -518,13 +522,20 @@ def buscar_proveedor():
         if request.method == "POST":
             provee_buscado = request.form["datos"]
             if provee_buscado != "":
+
                 with sqlite3.connect(rutadb) as con:
 
                     cur = con.cursor()
 
                     cur.execute("SELECT * FROM proveedor WHERE id_proveedor=?",[provee_buscado])
                     row = cur.fetchone()
-                    long = len(row)
+                    if row:
+                        long = len(row)
+                    else:
+                         flash("Proveedor no encontrado")
+                
+                    
+              
             
             else:
                 flash("El input esta vacio")
@@ -555,7 +566,10 @@ def editar_prov():
 
                     cur.execute("SELECT * FROM proveedor WHERE id_proveedor=?",[provee_buscado2])
                     row2 = cur.fetchone()
-                    long = len(row2)
+                    if row2:
+                        long = len(row2)
+                    else:
+                        flash("Provedor no encontrado")
                     
                     
             else:
@@ -645,7 +659,9 @@ def crearproducrtos():
                 precioProd=request.form["precio"]#precio_producto
                 cur.execute("INSERT INTO productos ( id_linea, id_proveedor, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?)",[id_linea,proveedor,lote,referencia,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd])
                 con.commit()
-                return render("agregarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)    
+                flash("Guardado con exito")  
+                return render("agregarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)
+                  
     else:
         return redirect("/ingreso")
 #////////////////////Buscar Producto/////////////////////////////
@@ -663,7 +679,10 @@ def buscarp():
                     #sentencia para validar usuario
                     cur.execute("SELECT * FROM productos WHERE codigo=?",[referencia])
                     rows= cur.fetchone()
-                    long=len(rows)
+                    if rows:
+                        long=len(rows)
+                    else:
+                        flash("Producto no ha sido encontrado")
                 else:
                     return "encontrar producto"
         return render("buscarprod.html",nom=nom,rol=rol,rows=rows,long=long,session=session)                
@@ -679,7 +698,13 @@ def eliminarp():
                 cur=con.cursor()
                 cur.execute("DELETE FROM productos WHERE codigo=?",[referencia])
                 con.commit()
+                if con.total_changes>0:
+                    con.close
+                    flash("Eliminado con exito")
+                else:
+                    flash("Producto no encontrado")
         return render ("eliminarprod.html",nom=nom,rol=rol)
+
     else:
         return redirect("/ingreso") 
 
@@ -715,7 +740,12 @@ def edi_prod():
                         #sentencia para validar usuario
                         cur.execute("SELECT * FROM productos WHERE codigo=?",[referencia])
                         row= cur.fetchone()
-                        long=len(row) 
+                        if row:
+                            long=len(row)
+                            flash("Pruducto encontrado") 
+                        else:
+                            flash("Producto no encontrado :(")
+                            
                     
                 else:
                     return "busqueda vacia"
