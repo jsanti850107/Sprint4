@@ -533,12 +533,6 @@ def buscar_proveedor():
                         long = len(row)
                     else:
                          flash("Proveedor no encontrado")
-                
-                    
-              
-            
-            else:
-                flash("El input esta vacio")
         return render("buscarprovee.html", nom=nom, rol=rol, row = row, long = long)
     else:
         return redirect("/ingreso")
