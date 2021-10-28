@@ -896,7 +896,6 @@ def emarcas():
                 if row:
                     frm.nom_linea.data=row[1]
                     frm.desc_linea.data=row[2]
-                    #frm1.nom_linea.data=""
                     sw=1
                 else:
                     flash("La marca no se encuentra en la base de datos")
