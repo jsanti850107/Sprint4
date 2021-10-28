@@ -58,11 +58,11 @@ class Marcas(FlaskForm):
     nom_linea = StringField("Nombre Marca: ", validators=[DataRequired()])
     desc_linea = StringField("Descripción de la marca: ", validators=[DataRequired()])
     enviar = SubmitField("Registrar")
-    editar = SubmitField("Enviar" , render_kw=({"onfocus":"cambiaRuta('/marca/editar_')"}))
+    editar = SubmitField("Enviar" , render_kw=({"onfocus":"cambiaRuta('/marca/editar')"}))
 
 class EMarcas(FlaskForm):
-    nom_linea = StringField("Nombre Marca: ", validators=[DataRequired()])
-    buscar = SubmitField("Buscar", render_kw=({"onfocus":"cambiaRuta('/marca/editar')"}))
+    bnom_linea = StringField("Nombre Marca: ", validators=[DataRequired()])
+    buscar = SubmitField("Buscar", render_kw=({"onfocus":"cambiaRuta('/marca/buscar')"}))
 
 class DMarcas(FlaskForm):
     nom_linea = StringField("Nombre Marca: ", validators=[DataRequired()])
@@ -70,5 +70,5 @@ class DMarcas(FlaskForm):
 
 class CrudMarcas(FlaskForm):
     enviar = SubmitField("Registrar", render_kw=({"onfocus":"cambiaRuta('/marca/crear')"}))
-    editar = SubmitField("Editar", render_kw=({"onfocus":"cambiaRuta('/marca/editar')"}))
+    editar = SubmitField("Editar", render_kw=({"onfocus":"cambiaRuta('/marca/buscar')"}))
     eliminar = SubmitField("Eliminar", render_kw=({"onfocus":"cambiaRuta('/marca/eliminar')"}))

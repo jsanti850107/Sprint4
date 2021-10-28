@@ -2,13 +2,13 @@
 {% block title %}Editar Marca{% endblock %}
 {% block contentimg %}
 <br><br><br>
-<form action="/marca/editar" method="post">
+<form action="/marca/buscar" method="post">
     {{ frm.hidden_tag() }}
     <table align="center">
         <p>
             <tr>
-                <td>{{ frm1.nom_linea.label }}</td>
-                <td>{{ frm1.nom_linea }}</td>
+                <td>{{ frm1.bnom_linea.label }}</td>
+                <td>{{ frm1.bnom_linea }}</td>
             </tr> 
         </p>
     </table>
@@ -58,11 +58,6 @@
         </p>    
     </table>
     <br>
-        {% for msg in get_flashed_messages() %}
-            <div align="center">
-            {{ msg }}
-            </div >
-        {% endfor %}
     <table align="center">
     <tr>
         <td>{{ frm.editar }}</td>

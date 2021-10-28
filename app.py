@@ -4,6 +4,7 @@ import os
 from werkzeug.utils import escape
 
 from wtforms import meta
+from wtforms.validators import HostnameValidation
 from forms.formularios import Buscar, Calificar, Chpass, CrudMarcas, DMarcas, EMarcas, Editar, Marcas, Registro,Login,Productos, Editar
 import hashlib
 
@@ -864,22 +865,29 @@ def cmarcas():
         return redirect("/ingreso")
 
 sw=0
-
-@app.route("/marca/editar", methods=["GET","POST"])
+rowsl=[]
+longl=0
+nombreante=""
+@app.route("/marca/buscar", methods=["GET","POST"])
 def emarcas():
     if 'usuario' in session:
         global sw
+        global rowsl
+        global longl
+        global nombreante
         sw=0
         frm1=EMarcas()
-        with sqlite3.connect(rutadb) as con:
-                # crea un cursor para manipular la base de datos
-                cur=con.cursor()
-                cur.execute("Select * from linea")
-                rows=cur.fetchall()
-                long=len(rows)
         frm=Marcas()
+        with sqlite3.connect(rutadb) as con:
+            # crea un cursor para manipular la base de datos
+            cur=con.cursor()
+            cur.execute("Select * from linea")
+            rowsl=cur.fetchall()
+            longl=len(rowsl)
+    
         if frm1.validate_on_submit():
-            nombrel=frm1.nom_linea.data
+            nombrel=frm1.bnom_linea.data
+            nombreante=nombrel
             with sqlite3.connect(rutadb) as con:
                 # crea un cursor para manipular la base de datos
                 cur=con.cursor()
@@ -893,34 +901,41 @@ def emarcas():
                 else:
                     flash("La marca no se encuentra en la base de datos")
                     sw=0
-        return render("emarcas.html",frm=frm,frm1=frm1,rows=rows,long=long,sw=sw)    
+        return render("emarcas.html",frm=frm,frm1=frm1,rows=rowsl,long=longl,sw=sw) 
+        
     else:
         return redirect("/ingreso")
 
-@app.route("/marca/editar_", methods=["GET","POST"])
+@app.route("/marca/editar", methods=["GET","POST"])
 def emarcas1():
+    global sw, nombreante
+    row=[]
     if 'usuario' in session:
-        # global nombrel,sw,descl
         frm=Marcas()
         frm1=EMarcas()
         if frm.validate_on_submit():
             nombre=escape(frm.nom_linea.data)
+            
             desc=escape(frm.desc_linea.data)
             with sqlite3.connect(rutadb) as con:
                 # crea un cursor para manipular la base de datos
-        
                 cur=con.cursor()
                 cur.execute("Select * from linea where nom_linea=?",[nombre])
                 row=cur.fetchone()
                 if row:
                     frm.nom_linea.data=""
-                    flash("La marca ingresarda ya se encuentra registrada")
+                    flash("La marca ya se encuentra registrada")
                     sw=1
                 else:
-                    flash("ok")
+                    #flash(f"{nombre}, {nombreante}, {desc}")
+                    with sqlite3.connect(rutadb) as con:
+                    # crea un cursor para manipular la base de datos
+                        cur=con.cursor()
+                        cur.execute("UPDATE linea SET nom_linea =?, descrip_linea=? WHERE nom_linea=?",[nombre,desc,nombreante])
+                    flash("Marca actualizada")
                     sw=0
-        return redirect("/marca/editar")
-        #return render("emarcas.html",frm1=frm1,frm=frm,sw=sw)
+        return redirect("/marca/buscar")
+        #return render("emarcas.html",frm=frm,frm1=frm1,rows=rowsl,long=longl,sw=sw)
     else:
         return redirect("/ingreso")
 
