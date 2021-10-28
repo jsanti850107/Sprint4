@@ -1,7 +1,7 @@
 {% extends "servicios.html" %}
 {% block title %}Eliminar producto{% endblock %}
 {% block contentimg %}
-{% if rol == "SuperAdmin" or rol == "Admin" %}
+{% if rol == "SuperAdmin" %}
     <form class="formulario" id="formulario" name="formulario" method="POST" action="/eliminar/producto">
         <div class="fil">
             <h1> Eliminar producto</h1>
@@ -14,7 +14,7 @@
     </div> 
 
     <div class="fil">
-        <label>Referencia del producto: </label>
+        <label>Codigo del producto: </label>
         <input type="search" name="eliproduc" id="eliminar">
     </div>
 
@@ -33,7 +33,7 @@
     <div align="center">
         {{ msg }}
         {% endfor %}
-   
+{% else %}
+<div class="centrado"><h1>Acceso Denegado</h1></div>  
 {% endif %}
 {% endblock %}
-</body>

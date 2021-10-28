@@ -1,6 +1,7 @@
 {% extends "servicios.html" %}
 {% block title %}Editar producto{% endblock %}
 {% block contentimg %}
+{% if rol == "SuperAdmin" or rol == "Admin"   %}
 <br><br><br>
 <div>
     <form action="/editar/producto" method="POST" class="a">
@@ -59,8 +60,8 @@
         <!-- id pud y id linea -->
     </div>
     <div class="fil">
-        <label>Referencia:</label>
-        <input type="number" name="ref" id="ref" value={{row[4]}}>
+        <label>Codigo:</label>
+        <input type="number" name="codigo" id="codigo" value={{row[4]}}>
     </div>
 
     <div class="fil">
@@ -143,8 +144,9 @@
         </div>
     </div>
 </form>
+
 {% endif %}
-
-
-
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

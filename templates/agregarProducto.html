@@ -12,16 +12,17 @@
             <!-- id pud y id linea -->
             </div>
             <div class="fil">
-                <label>Referencia:</label>
-                <input type="number" name="ref" id="ref">
+                <label>Codigo:</label>
+                <input type="number" name="codigo" id="codigo" value="{{codigo}}">
             </div>
             <div class="fil">
                 <label>Marca: </label>
                 <select name="selectlinea" id="">
-                    <option value="value0" selected>--Escoja una marca--</option>
+                    <option value="value0" >--Escoja una marca--</option>
                     {% for i in range(longl) %}
                         <option value="{{rowl[i]['id_linea']}}">{{rowl[i]['nom_linea']}}</option>
                     {% endfor %}
+
                 </select>    
             </div>
             <!-- id provedor y id calificacion -->
@@ -37,39 +38,39 @@
             <!-- lote y codigo -->
             <div class="fil">
                 <label>Lote:</label>
-                <input type="number" name="lote" id="lote" min="1">
+                <input type="number" name="lote" id="lote" min="1" value="{{lote}}">
             </div>
             
             <!-- descripcion de prod -->
             <div class="fil">
                 <label>Descripcion:</label>
-                <textarea name="destxt" id="destxt" placeholder="color,tamaño,peso,funcionalidad,año,ect"></textarea>
+                <textarea name="destxt" id="destxt" placeholder="color,tamaño,peso,funcionalidad,año,ect" data="{{descrp}}"></textarea>
             </div>
             <!-- serial prod y fecha lote -->
             <div class="fil">
                 <label>Serial del producto:</label>
-                <input type="number" name="serpod" id="serprod"  min="1">
+                <input type="number" name="serpod" id="serprod"  min="1" value="{{serialprod}}">
             </div>
             <div class="fil">
                 <label>Fecha Lote:</label>
-                <input type="date" name="fechlot" id="fechlot"  min="1">
+                <input type="date" name="fechlot" id="fechlot"  min="1" value="{{fechaLote}}">
             </div>
         
                 
             <!--  stock  y Cant-REQUERIDA -->
             <div class="fil">
                 <label> Min:</label>
-                <input type="number" name="num2" id="num2" min="1">
+                <input type="number" name="num2" id="num2" min="1" value="{{cantRequerida}}">
             </div>
                 <div class="fil">
                 <label>Cantidad en bodega:</label>
-                <input type="number" name="num1" id="num1" required min="1">
+                <input type="number" name="num1" id="num1" required min="1" value="{{cantBodega}}">
             </div>
                 
             <!-- PRECIO--> 
             <div class="fil">
                 <label>precio del prod:</label>
-                <input type="number" name="precio" id="precio">
+                <input type="number" name="precio" id="precio" value="{{precioProd}}">
             </div>
             <div class="b"><br>
             <hr><br>

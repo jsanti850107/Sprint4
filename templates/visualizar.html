@@ -1,8 +1,11 @@
 
     {% extends "servicios.html" %}
+
 {% block title %}Visualizar Producto{% endblock %}
 {% block contentimg %}
+
     <br><br><br>
+    {% if session.rol == "SuperAdmin" or session.rol == "Admin" or session.rol == "SuperAdmin" %}
         <br>
         <br>
         <br>
@@ -11,10 +14,10 @@
                 <thead>
                     <tr>
                         <th>id_producto</th>
-                        <th>id_linea</th>
+                        <th>Codigo</th>
                         <th>id_proveedor</th>
                         <th>Lote</th>
-                        <th>Codigo</th>
+                        <th>Id_linea</th>
                         <th>Descripcion</th>
                         <th>Stock</th>
                         <th>Serial_Producto</th>
@@ -29,10 +32,10 @@
                     {% for i in range (long) %}
                     <tr>
                         <td>{{productos[i][0]}}</td>
-                        <td>{{productos[i][1]}}</td>
+                        <td>{{productos[i][4]}}</td>
                         <td>{{productos[i][2]}}</td>
                         <td>{{productos[i][3]}}</td>
-                        <td>{{productos[i][4]}}</td>
+                        <td>{{productos[i][1]}}</td>
                         <td>{{productos[i][5]}}</td>
                         <td>{{productos[i][6]}}</td>
                         <td>{{productos[i][7]}}</td>
@@ -49,8 +52,10 @@
                 </tbody>
             </table>
         </div>
-
-
+    {% endif %}
 {% endblock %}
+
+
+
 
     

@@ -617,45 +617,87 @@ def list_proveedores():
 
 rowl=rowp=[]
 longl=longp=0
+proveedor=""
+id_linea=""
+codigo=""
+lote=""
+descrp=""
+serialprod=""
+fechaLote=""
+cantRequerida=""
+cantBodega=""
+precioProd=""
 
+#/////////////////////////////////////////PRODUCTOS//////////////////////////////////////////////////////////////
 #/////////////////////////////////////////Agregar Producto//////////////////////////////////////////////////////
 @app.route("/crear/producto",methods=["GET","POST"])
 def crearproducrtos():
+    global proveedor,id_linea,codigo,descrp,serialprod,fechaLote, cantRequerida, cantBodega,precioProd,lote
     global nom,rowl,rowp,longl,longp
+    global sw
     if 'usuario' in session:
         if request.method=="GET":
             with sqlite3.connect(rutadb) as con: 
                 con.row_factory=sqlite3.Row #vista de diccionario
                 cur=con.cursor()
-                cur.execute("select id_linea, nom_linea from linea order by nom_linea")
+                cur.execute("SELECT id_linea, nom_linea from linea order by nom_linea")
                 rowl=cur.fetchall()
                 longl=len(rowl)
                 cur.execute("select id_proveedor, nom_proveedor from proveedor order by nom_proveedor")
                 rowp=cur.fetchall()
                 longp=len(rowp)
 
-            return render("agregarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)
+            return render("agregarProducto.html",proveedor=proveedor,id_linea=id_linea,codigo=codigo,descrp=descrp,serialprod=serialprod,fechaLote=fechaLote, cantRequerida=cantRequerida, cantBodega=cantBodega,precioProd=precioProd,lote=lote,nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)
         else:
-            with sqlite3.connect(rutadb) as con:    
-                cur=con.cursor()
-                #id_producto=request.form["numid"]#id_producto
                 id_linea=request.values["selectlinea"]#id_linea
                 proveedor= request.values["selectprov"]#id_proveedor
-                # #calificacion= request.form["calinum"]#id_calificacion
                 lote= request.form["lote"]#lote
-                referencia=request.form["ref"]#codigo
-                #nombre=request.form["nomtxt"]#nombre
+                codigo=request.form["codigo"]#codigo
                 descrp=request.form["destxt"]#descrp
                 serialprod=request.form["serpod"]#serial_prod
                 fechaLote=request.form["fechlot"]#fecha_lote
                 cantRequerida=request.form["num2"]#cant_requerida
                 cantBodega=request.form["num1"]#stock
                 precioProd=request.form["precio"]#precio_producto
-                cur.execute("INSERT INTO productos ( id_linea, id_proveedor, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?)",[id_linea,proveedor,lote,referencia,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd])
-                con.commit()
-                flash("Guardado con exito")  
-                return render("agregarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)
-                  
+                with sqlite3.connect(rutadb) as con:    
+                    cur=con.cursor()
+                    con.row_factory=sqlite3.Row #vista de diccionario
+                    cur.execute("SELECT codigo FROM productos where codigo=?",[codigo])
+                    row=cur.fetchone()
+                    
+                if row:
+                    flash("El codigo ya existe ")
+                    codigo=""
+                    
+                   
+
+                        
+                
+                else:
+                    if id_linea!="value0" and  proveedor!= "value0":
+                        cur.execute("INSERT INTO productos ( id_linea, id_proveedor, lote, codigo,descrip_producto,stock,serial_producto,fecha_lote,cant_requerida,precio) VALUES(?,?,?,?,?,?,?,?,?,?)",
+                        [id_linea,proveedor,lote,codigo,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd])
+                        con.commit()
+                        proveedor=""
+                        id_linea=""
+                        codigo=""
+                        lote=""
+                        descrp=""
+                        serialprod=""
+                        fechaLote=""
+                        cantRequerida=""
+                        cantBodega=""
+                        precioProd=""
+                        flash("Guardado con exito")
+                    else:
+                        if id_linea=="value0":
+                            flash("Falta marca ")
+                        elif proveedor=="value0":
+                            flash("Falta proveedor")
+
+                return render("agregarProducto.html",proveedor=proveedor,id_linea=id_linea,codigo=codigo,descrp=descrp,serialprod=serialprod,fechaLote=fechaLote, cantRequerida=cantRequerida, cantBodega=cantBodega,precioProd=precioProd,lote=lote,nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp)
+                    
+                
     else:
         return redirect("/ingreso")
 #////////////////////Buscar Producto/////////////////////////////
@@ -667,11 +709,11 @@ def buscarp():
     if 'usuario' in session:
         if request.method=="POST":
             with sqlite3.connect(rutadb) as con:
-                referencia=request.form["bp"]#codigo
-                if referencia!="":
+                codigo=request.form["bp"]#codigo
+                if codigo!="":
                     cur=con.cursor()
                     #sentencia para validar usuario
-                    cur.execute("SELECT * FROM productos WHERE codigo=?",[referencia])
+                    cur.execute("SELECT * FROM productos WHERE codigo=?",[codigo])
                     rows= cur.fetchone()
                     if rows:
                         long=len(rows)
@@ -687,10 +729,10 @@ def buscarp():
 def eliminarp():
     if 'usuario' in session:
         if request.method=="POST":
-            referencia=request.form["eliproduc"]#codigo
+            codigo=request.form["eliproduc"]#codigo
             with sqlite3.connect(rutadb) as con:
                 cur=con.cursor()
-                cur.execute("DELETE FROM productos WHERE codigo=?",[referencia])
+                cur.execute("DELETE FROM productos WHERE codigo=?",[codigo])
                 con.commit()
                 if con.total_changes>0:
                     con.close
@@ -721,18 +763,18 @@ row=[]
 @app.route("/editar/producto", methods = ["GET","POST"])
 def edi_prod():
     global rowl,nom,rowp,longl,longp
-    referencia=""
+    codigo=""
     row=[]
     long=0
     if 'usuario' in session:
         if request.method=="POST":
             with sqlite3.connect(rutadb) as con:
-                referencia= request.form["busqueda"]#codigo
-                if referencia!="":
+                codigo= request.form["busqueda"]#codigo
+                if codigo!="":
                     with sqlite3.connect(rutadb) as con:
                         cur=con.cursor()
                         #sentencia para validar usuario
-                        cur.execute("SELECT * FROM productos WHERE codigo=?",[referencia])
+                        cur.execute("SELECT * FROM productos WHERE codigo=?",[codigo])
                         row= cur.fetchone()
                         if row:
                             long=len(row)
@@ -754,19 +796,16 @@ def edi_prod():
                 rowp=cur.fetchall()
                 longp=len(rowp)
             return render("editarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp,long=long,row=row)
-        return render("editarProducto.html",row = row, nom=nom,rol=rol,long=long,busqueda=referencia,rowl=rowl,rowp=rowp,longl=longl,longp=longp)                
+        return render("editarProducto.html",row = row, nom=nom,rol=rol,long=long,busqueda=codigo,rowl=rowl,rowp=rowp,longl=longl,longp=longp)                
     else:
         return redirect("/ingreso")
 
 @app.route("/editar/p", methods = ["GET","POST"])
 def editar_p():
-     #id_producto=request.form["numid"]#id_producto
     id_linea=request.values["selectlinea"]#id_linea
     proveedor= request.values["selectprov"]#id_proveedor
-    # #calificacion= request.form["calinum"]#id_calificacion
     lote= request.form["lote"]#lote
-    referencia=request.form["ref"]#codigo
-    #nombre=request.form["nomtxt"]#nombre
+    codigo=request.form["codigo"]#codigo
     descrp=request.form["destxt"]#descrp
     serialprod=request.form["serpod"]#serial_prod
     fechaLote=request.form["fechlot"]#fecha_lote
@@ -778,7 +817,7 @@ def editar_p():
         if request.method == "POST":
             with sqlite3.connect(rutadb) as con:
                 cur=con.cursor()
-                cur.execute("UPDATE productos SET id_linea=?,id_proveedor=?, lote=?,descrip_producto=?,stock=?,serial_producto=?,fecha_lote=?,cant_requerida=?,precio=? WHERE codigo=?",[id_linea,proveedor,lote,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd,referencia])
+                cur.execute("UPDATE productos SET id_linea=?,id_proveedor=?, lote=?,descrip_producto=?,stock=?,serial_producto=?,fecha_lote=?,cant_requerida=?,precio=? WHERE codigo=?",[id_linea,proveedor,lote,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd,codigo])
                 return"Editado con Exito"
         return render("editarProducto.html",nom=nom,rol=rol,row=row)
     else:
@@ -808,11 +847,11 @@ def b_proveexprod():
         if request.method=="POST":
             with sqlite3.connect(rutadb) as con:
                 con.row_factory = sqlite3.Row
-                referencia=request.form["bp"]#codigo
-                if referencia!="":
+                codigo=request.form["bp"]#codigo
+                if codigo!="":
                     cur=con.cursor()
                     #sentencia para validar usuario
-                    cur.execute("select proveedor.*, productos.id_linea,linea.nom_linea from proveedor inner join productos on productos.id_proveedor=proveedor.id_proveedor inner join linea on linea.id_linea=productos.id_linea where linea.id_linea=?",[referencia])
+                    cur.execute("select proveedor.*, productos.id_linea,linea.nom_linea from proveedor inner join productos on productos.id_proveedor=proveedor.id_proveedor inner join linea on linea.id_linea=productos.id_linea where linea.id_linea=?",[codigo])
                     rows= cur.fetchall()
                     long=len(rows)
                 else:
