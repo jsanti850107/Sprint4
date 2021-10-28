@@ -84,7 +84,6 @@ def ingreso():
 def servicios():
     global nom,rol
     if 'usuario' in session:
-    #if nom!="":
         return render("servicios.html",nom=nom,rol=rol)
     else:
         return redirect("/ingreso")
