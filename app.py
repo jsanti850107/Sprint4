@@ -760,9 +760,11 @@ def visualizar_producto():
         return redirect("/ingreso")
 #/////////////////////////////Editar Producto///////////////////////////////////////////////
 row=[]
+rowbp=[]
+longbp=0
 @app.route("/editar/producto", methods = ["GET","POST"])
 def edi_prod():
-    global rowl,nom,rowp,longl,longp
+    global rowl,nom,rowp,longl,longp,rowbp,longbp
     codigo=""
     row=[]
     long=0
@@ -775,9 +777,9 @@ def edi_prod():
                         cur=con.cursor()
                         #sentencia para validar usuario
                         cur.execute("SELECT * FROM productos WHERE codigo=?",[codigo])
-                        row= cur.fetchone()
-                        if row:
-                            long=len(row)
+                        rowbp= cur.fetchone()
+                        if rowbp:
+                            longbp=len(rowbp)
                             flash("Pruducto encontrado") 
                         else:
                             flash("Producto no encontrado :(")
@@ -795,13 +797,13 @@ def edi_prod():
                 cur.execute("select id_proveedor, nom_proveedor from proveedor order by nom_proveedor")
                 rowp=cur.fetchall()
                 longp=len(rowp)
-            return render("editarProducto.html",nom=nom,rol=rol,rowl=rowl,rowp=rowp,longl=longl,longp=longp,long=long,row=row)
-        return render("editarProducto.html",row = row, nom=nom,rol=rol,long=long,busqueda=codigo,rowl=rowl,rowp=rowp,longl=longl,longp=longp)                
+        return render("editarProducto.html",row = rowbp, nom=nom,rol=rol,long=longbp,busqueda=codigo,rowl=rowl,rowp=rowp,longl=longl,longp=longp)                
     else:
         return redirect("/ingreso")
 
 @app.route("/editar/p", methods = ["GET","POST"])
 def editar_p():
+    global rowbp,longbp
     id_linea=request.values["selectlinea"]#id_linea
     proveedor= request.values["selectprov"]#id_proveedor
     lote= request.form["lote"]#lote
@@ -818,8 +820,10 @@ def editar_p():
             with sqlite3.connect(rutadb) as con:
                 cur=con.cursor()
                 cur.execute("UPDATE productos SET id_linea=?,id_proveedor=?, lote=?,descrip_producto=?,stock=?,serial_producto=?,fecha_lote=?,cant_requerida=?,precio=? WHERE codigo=?",[id_linea,proveedor,lote,descrp,cantBodega,serialprod,fechaLote,cantRequerida,precioProd,codigo])
-                return"Editado con Exito"
-        return render("editarProducto.html",nom=nom,rol=rol,row=row)
+                flash("Editado con Exito")
+                rowbp=[]
+                
+        return render("editarProducto.html",nom=nom,rol=rol,rowl=rowl, longl=longl,rowp=rowp,longp=longp,row=rowbp,long=longbp)
     else:
         return redirect("/ingreso")  
 
