@@ -2,6 +2,7 @@
 {% block title %}Calificar Productos{% endblock %}
 {% block contentimg %}
 <br><br><br>
+{% if session.rol == "SuperAdmin" or session.rol == "UsuarioFinal" %}
     <div class="centrado">
         <form action="" method="post">
             {{ frm.hidden_tag() }}
@@ -53,4 +54,7 @@
     <input type="submit" name="" id="" value="Listar">
     
     </form></div>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

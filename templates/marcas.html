@@ -2,6 +2,7 @@
 {% block title %}Gestion Marcas{% endblock %}
 {% block contentimg %}
 <br><br><br>
+{% if session.rol == "SuperAdmin" %}
     <h1 align="center">LISTA DE MARCAS {{long}}</h1>
     <form action="" method="post" onsubmit="return confirmarBorrado()">
         {{ frm.hidden_tag() }}
@@ -26,4 +27,7 @@
         
     </tbody>
 </table>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

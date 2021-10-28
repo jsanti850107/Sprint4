@@ -2,6 +2,7 @@
 {% block title %}busqueda de proveedor por producto especifico{% endblock %}
 {% block contentimg %}
 <br><br><br>
+{% if session.rol == "SuperAdmin" or session.rol == "UsuarioFinal" %}
 <div align="center">
     <form action="" method="POST"  class="a" id="tabla">
             <div align="center">
@@ -45,4 +46,7 @@
         </table>
     {% endif %}    
 </div>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

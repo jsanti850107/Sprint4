@@ -1,6 +1,7 @@
 {% extends "servicios.html" %}
 {% block title %}Busqueda de usuarios{% endblock %}
-    {% block contentimg %}
+{% block contentimg %}
+    {% if session.rol == "SuperAdmin" or session.rol == "Admin" %}
     <div class="centrado">
         <form action="" method="post" onsubmit="return confirmarBorrado()">
             {{ frm.hidden_tag() }}
@@ -79,6 +80,8 @@
         </form>
        
     </div>
-   
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}   
     
-    {% endblock %}
+{% endblock %}

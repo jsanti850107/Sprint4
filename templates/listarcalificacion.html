@@ -2,6 +2,7 @@
 {% block title %}Listado de Calificaciones{% endblock %}
 {% block contentimg %}
 <br><br><br>
+{% if session.rol == "SuperAdmin" or session.rol == "UsuarioFinal" %}
 <div class="centrado"><h1>TOTAL CALIFICACIONES {{long}}</h1></div>
 <table align="center" cellspacing="2" cellpadding="20" border="1" bgcolor=dddddd>
     <thead>         
@@ -18,4 +19,7 @@
         
     </tbody>
 </table>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

@@ -35,8 +35,12 @@
     </div>
 {% endblock %}
 {% block contentimg %}
-
+{% if session.rol == "SuperAdmin" or session.rol == "Admin" %}
     <br><br><br>
     
     <div id="chart_div" align="center" style="width: 900px; height: 500px;"></div>
+
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

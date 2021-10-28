@@ -1,6 +1,7 @@
 {% extends "servicios.html" %}
 {% block title %}Registro de usuarios{% endblock %}
 {% block contentimg %}
+{% if session.rol == "SuperAdmin" or session.rol == "Admin" %}
     <div class="centrado">
         <form action="" method="post">
             {{ frm.hidden_tag() }}
@@ -62,5 +63,8 @@
             <table align="center"><tr><td>{{ frm.enviar }}</td></tr></table>
         </form>   
     </div>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}
 

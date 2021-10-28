@@ -2,6 +2,7 @@
 {% block title %}Editar Marca{% endblock %}
 {% block contentimg %}
 <br><br><br>
+{% if session.rol == "SuperAdmin" %}
 <form action="/marca/buscar" method="post">
     {{ frm.hidden_tag() }}
     <table align="center">
@@ -64,5 +65,8 @@
     </tr>
     </table>
 </form>
-{% endif %}    
+{% endif %} 
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}   
 {% endblock %}

@@ -2,6 +2,7 @@
 {% block title %}Crear Marca{% endblock %}
 {% block contentimg %}
 <br><br><br>
+{% if session.rol == "SuperAdmin" %}
 <form action="/marca/crear" method="post">
     {{ frm.hidden_tag() }}
     <table align="center">
@@ -33,4 +34,7 @@
     </table>
     
 </form>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}
