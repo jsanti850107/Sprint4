@@ -915,23 +915,32 @@ def emarcas1():
             nombre=escape(frm.nom_linea.data)
             
             desc=escape(frm.desc_linea.data)
-            with sqlite3.connect(rutadb) as con:
-                # crea un cursor para manipular la base de datos
-                cur=con.cursor()
-                cur.execute("Select * from linea where nom_linea=?",[nombre])
-                row=cur.fetchone()
-                if row:
-                    frm.nom_linea.data=""
-                    flash("La marca ya se encuentra registrada")
-                    sw=1
-                else:
-                    #flash(f"{nombre}, {nombreante}, {desc}")
-                    with sqlite3.connect(rutadb) as con:
+            if nombre!=nombreante:
+                with sqlite3.connect(rutadb) as con:
                     # crea un cursor para manipular la base de datos
-                        cur=con.cursor()
-                        cur.execute("UPDATE linea SET nom_linea =?, descrip_linea=? WHERE nom_linea=?",[nombre,desc,nombreante])
-                    flash("Marca actualizada")
-                    sw=0
+                    cur=con.cursor()
+                    cur.execute("Select * from linea where nom_linea=?",[nombre])
+                    row=cur.fetchone()
+                    if row:
+                        frm.nom_linea.data=""
+                        flash("La marca ya se encuentra registrada")
+                        sw=1
+                    else:
+                        #flash(f"{nombre}, {nombreante}, {desc}")
+                        with sqlite3.connect(rutadb) as con:
+                        # crea un cursor para manipular la base de datos
+                            cur=con.cursor()
+                            cur.execute("UPDATE linea SET nom_linea =?, descrip_linea=? WHERE nom_linea=?",[nombre,desc,nombreante])
+                        flash("Marca actualizada")
+                        sw=0
+            else:
+                #flash(f"{nombre}, {nombreante}, {desc}")
+                with sqlite3.connect(rutadb) as con:
+                # crea un cursor para manipular la base de datos
+                    cur=con.cursor()
+                    cur.execute("UPDATE linea SET descrip_linea=? WHERE nom_linea=?",[desc,nombreante])
+                flash("Descripcion actualizada")
+                sw=0
         return redirect("/marca/buscar")
         #return render("emarcas.html",frm=frm,frm1=frm1,rows=rowsl,long=longl,sw=sw)
     else:
