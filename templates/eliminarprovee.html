@@ -4,6 +4,7 @@
 {% block title %} Eliminar Proveedor {% endblock %}
 
 {% block contentimg %}
+{% if session.rol == "SuperAdmin" %}
 <br>
 <br>
 <br>
@@ -67,4 +68,7 @@
         </tbody>
     </table>
 </div>
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

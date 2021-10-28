@@ -4,8 +4,7 @@
 
 {% block contentimg %}
 <br>
-<br>
-<br>
+{% if session.rol == "SuperAdmin" %}
 <div id="buscar">
     <form action="/editar/proveedor", method="POST">
         <label>Buscar: </label><input type="search" name="datos2">
@@ -105,5 +104,7 @@
     }
 
 </script>
-
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}

@@ -2,7 +2,7 @@
 {% block title %}Visualizar usuario{% endblock %}
 {% block contentimg %}
 <br><br><br>
-
+{% if session.rol == "SuperAdmin" or session.rol == "UsuarioFinal" %}
 <br>
 <br>
 <br>
@@ -51,6 +51,8 @@
         </tbody>
     </table>
 </div>
-
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}
 

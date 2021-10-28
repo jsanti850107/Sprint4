@@ -6,6 +6,7 @@
     <br>
     <br>
     <br>
+    {% if session.rol == "SuperAdmin" or session.rol == "UsuarioFinal" %}
     <div id="buscar">
         <form action="/buscar/proveedor", method="POST">
             <label>Buscar: </label><input type="search" name="datos" required>
@@ -52,5 +53,5 @@
         </div>
     {% endfor %}
     </div>
-
+{% endif %}
 {% endblock %}

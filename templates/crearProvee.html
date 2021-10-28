@@ -3,7 +3,7 @@
 {% block title %} Crear Proveedor {% endblock %}
 
 {% block contentimg %}
-
+{% if session.rol == "SuperAdmin" %}
 
 
 <div class="content-form-proveedor">
@@ -89,5 +89,7 @@
 <script>
     document.getElementById("limpiarform").reset();
 </script>
-
+{% else %}
+    <div class="centrado"><h1>Acceso Denegado</h1></div>
+{% endif %}
 {% endblock %}
