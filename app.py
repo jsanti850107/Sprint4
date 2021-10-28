@@ -762,9 +762,11 @@ def visualizar_producto():
 row=[]
 rowbp=[]
 longbp=0
+
 @app.route("/editar/producto", methods = ["GET","POST"])
 def edi_prod():
     global rowl,nom,rowp,longl,longp,rowbp,longbp
+    global codigo
     codigo=""
     row=[]
     long=0
@@ -780,7 +782,7 @@ def edi_prod():
                         rowbp= cur.fetchone()
                         if rowbp:
                             longbp=len(rowbp)
-                            flash("Pruducto encontrado") 
+                            flash("Producto encontrado") 
                         else:
                             flash("Producto no encontrado :(")
                             
@@ -807,7 +809,6 @@ def editar_p():
     id_linea=request.values["selectlinea"]#id_linea
     proveedor= request.values["selectprov"]#id_proveedor
     lote= request.form["lote"]#lote
-    codigo=request.form["codigo"]#codigo
     descrp=request.form["destxt"]#descrp
     serialprod=request.form["serpod"]#serial_prod
     fechaLote=request.form["fechlot"]#fecha_lote
