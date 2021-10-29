@@ -362,9 +362,27 @@ def vusuarios():
 @app.route("/servicios/dash", methods=["GET"])
 def dash():
     if 'usuario' in session:
-        varp=['Month', 'TAOS', 'T-CROSS', 'BEATTLE', 'GOL', 'SAVEIRO PLUS', 'POLO']
-        var1=[2017, 500,      938,         522,             998,           450,      614.6]
-        return render("dashboard.html",varp=varp,var1=var1)
+        sa=0
+        a=0
+        uf=0
+        longd=0
+        with sqlite3.connect(rutadb) as con:
+            con.row_factory=sqlite3.Row #lista de diccionario
+            cur = con.cursor()
+            cur.execute("select * from usuarios" )
+            rowsd=cur.fetchall()
+            longd=len(rowsd)
+            for i in range(longd):
+                if rowsd[i]['rol']=="SuperAdmin":
+                    sa=sa+1
+                elif rowsd[i]['rol']=="Admin":
+                    a=a+1
+                elif rowsd[i]['rol']=="UsuarioFinal":
+                    uf=uf+1
+
+        # varp=['Month', 'TAOS', 'T-CROSS', 'BEATTLE', 'GOL', 'SAVEIRO PLUS', 'POLO']
+        # var1=[2017, 500,      938,         522,             998,           450,      614.6]
+        return render("dashboard.html",sa=sa,a=a, uf=uf)
     else:
         return redirect("/ingreso")
 
